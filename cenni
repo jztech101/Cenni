@@ -1,0 +1,231 @@
+#!/usr/bin/env python3
+import sys, os, imp, optparse
+from configs import Configs
+from textwrap import dedent as trim
+
+dotdir = os.path.expanduser('~/Kenni/config')
+configpath = os.path.expanduser(dotdir + '/default.py')
+
+if getattr(os, 'geteuid', None) and os.geteuid() == 0:
+    error = 'Error: Refusing to run as root.'
+    sys.stderr.write(error)
+    sys.exit(1)
+
+def check_python_version():
+    if sys.version_info < (3, 5):
+        error = 'Error: Requires Python 3.5 or later, from www.python.org'
+        sys.stderr.write(error)
+        sys.exit(1)
+
+def create_default_config(fn):
+    f = open(fn, 'w')
+    output = """\
+    # Lines that begin with a "#" are comments.
+    # Remove the "#" from the beginning of a line to make those lines active.
+
+    nick = 'kenni'
+    host = 'irc.example.net'
+    port = 6667
+    ssl  = False
+    sasl = False
+    channels = ['#example', '#test']
+    prefix = r'\+'
+    # Channel kenni will report all private messages sent to her to.
+    # This includes server notices.
+    # logchan_pm = '#kenni-log'
+
+    # You can also specify nick@hostmask
+    # For example: yano@unaffiliated/yano
+    owner = 'yournickname'
+
+    # user is the NickServ userid
+    # This is useful if your NickServ user is different than the nick you are using
+    # user = 'userid'
+
+    # password is the NickServ password, serverpass is the server password
+    # password = 'example'
+    # serverpass = 'serverpass'
+    ident = 'kenni'
+
+    ## API KEYS
+
+    # forecastio_apikey is for an API key from https://forecast.io/
+    # This is useful if you want extended weather information.
+    # Required if you want .weather to work.
+    # If not, you can use .weather-noaa or .wx-noaa
+    # forecastio_apikey = ''
+
+    # wunderground_apikey is for an API key from http://www.wunderground.com/
+    # This is useful if you want more local and *live* weather information.
+    # This is optional and doesn't need to be added.
+    # wunderground_apikey = ''
+
+    # google_dev_apikey is for an API key from Google Developers
+    # https://developers.google.com/api-client-library/python/guide/aaa_apikeys
+    # Get a Server API Key; this is required for YouTube to work.
+    # google_dev_apikey = ''
+
+    # wolframalpha_apikey is for an API key from Wolfram|Alpha
+    # http://products.wolframalpha.com/api/
+    # This is needed in order to make .calc/.c have more comprehensive answers.
+    # wolframalpha_apikey = ''
+    # omdb_apikey  = ''
+    
+    # yelp API Key
+    # yelp_apikey = ''
+
+
+    # You can add bannable words / regex per channel
+    # bad_words = {
+    #   "#yourchan": ['badword', '(a|b).*c.*(d|e)']
+    # }
+    #
+    # This controls the number of warnings a user will receive
+    # before they are banned from the channel
+    # bad_word_limit = 1
+
+    # sed_enable = ['#channel']
+    # These are people who will be able to use admin.py's functions...
+    admins = [owner]
+    #exclude = ['adminchannel', 'chicken_reply', 'insult', 'lispy', 'twss']
+
+    # This allows one to allow specific people to use channel admin commands
+    # in specific channels.
+    helpers = {
+       # '#channel1': ['a.somedomain.tld', 'b.anotherdomain.tld'],
+       # '##channel2': ['some/other/hostmask'],
+        }
+    prefixes = {
+       # '#channel1': r'\$'
+        }
+
+    # Enable raw logging of everything kenni sees.
+    # logged to the folder 'log'
+    logging = False
+
+    # Block modules from specific channels
+    # To not block anything for a channel, just don't mention it
+    excludes = {
+            '##blacklist': ['!'],
+        }
+
+    # If you want to enumerate a list of modules rather than disabling
+    # some, use "enable = ['example']", which takes precedent over exclude
+    #
+    # enable = []
+
+    # Directories to load user modules from
+    # e.g. /path/to/my/modules
+    extra = []
+
+    # Services to load: maps channel names to white or black lists
+    external = {
+        '#liberal': ['!'], # allow all
+        '#conservative': [], # allow none
+        '*': ['!'] # default whitelist, allow all
+    }
+
+    # insult database available: "spanish" and "english"
+    insult_lang = "english"
+
+    # EOF
+    """
+    print >> f, trim(output)
+    f.close()
+
+def create_configfile(dotdir):
+
+    if not os.path.isdir(dotdir):
+        sys.stderr.write('Creating a config directory at ~/Kenni/config...')
+        try: os.mkdir(dotdir)
+        except Exception as e:
+            sys.stderr.write('There was a problem creating %s:' % dotdir)
+            sys.stderr.write(e.__class__, str(e))
+            sys.stderr.write('Please fix this and then run kenni again.')
+            sys.exit(1)
+
+    create_default_config(configpath)
+    sys.stdout.write('Config file generated. Please edit it at ' + configpath + ' and run ./kenni again.')
+
+    sys.exit(0)
+
+def check_dotdir():
+    if not os.path.isdir(dotdir) or not os.path.isfile(configpath):
+        create_configfile(dotdir)
+
+def config_names(config):
+    config = config or 'default'
+
+    def files(d):
+        names = os.listdir(d)
+        return list(os.path.join(d, fn) for fn in names if fn.endswith('.py'))
+
+    here = os.path.join('.', config)
+    if os.path.isfile(here):
+        return [here]
+    if os.path.isfile(here + '.py'):
+        return [here + '.py']
+    if os.path.isdir(here):
+        here_files = files(here)
+        if(len(here_files) == 0):
+            sys.stderr.write("Error: Config directory '{0}' contained no .py files".format(here))
+        return here_files
+
+    there = os.path.join(dotdir, config)
+    if os.path.isfile(there):
+        return [there]
+    if os.path.isfile(there + '.py'):
+        return [there + '.py']
+    if os.path.isdir(there):
+        there_files = files(there)
+        if(len(there_files) == 0):
+            sys.stderr.write("Error: Config directory '{0}' contained no .py files".format(there))
+        return there_files
+
+    sys.stderr.write("Error: Couldn't find config '{0}' to import or .py files therein".format(config))
+    sys.exit(1)
+
+def initialize_configs(config_path):
+    config_modules = []
+
+    all_configs = config_names(config_path)
+
+    if(len(all_configs) == 0):
+        sys.stderr.write("Error: no config files found in config path '{0}'".format(config_path))
+        sys.exit(1)
+
+    config_helper = Configs(all_configs)
+    config_helper.load_modules(config_modules)
+
+    # Give at least one module the config helper
+    config_modules[0].config_helper = config_helper
+
+    # Step Four: Load kenni
+
+    from __init__ import run
+
+    # Step Five: Initialise And Run The kennies
+
+    # @@ ignore SIGHUP
+    for config_module in config_modules:
+        run(config_module) # @@ thread this
+
+def main(argv=None):
+    # Step One: Parse The Command Line
+
+    parser = optparse.OptionParser('%prog [options]')
+    parser.add_option('-c', '--config', metavar='fn',
+        help='use this configuration file or directory')
+    opts, args = parser.parse_args(argv)
+
+    # Step Two: Check Dependencies
+
+    check_python_version() # require python2.4 or later
+    check_dotdir() # require ~/Kenni/config, or make it and exit
+
+    # Step Three: Load The Configurations
+
+    initialize_configs(opts.config)
+
+if __name__ == '__main__':
+    main()
