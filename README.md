@@ -1,10 +1,10 @@
 Installation & Configuration
 ============================
-kenni requires python 3.x
+Cenni requires python 3.x
 
-1. Run ./kenni - this creates a default config file
-2. Edit ~/Kenni/config/default.py
-3. Run ./kenni - this now runs kenni with your settings
+1. Run ./cenni - this creates a default config file
+2. Edit ~/Cenni/config/default.py
+3. Run ./cenni - this now runs kenni with your settings
 
 Enjoy!
 
