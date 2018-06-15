@@ -10,19 +10,19 @@ base = 'http://ip-api.com/json/'
 re_ip = re.compile('(?i)\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
 re_country = re.compile('(?i)(.+), (.+ of)')
 
-def ip_lookup(kenni, input):
+def ip_lookup(cenni, input):
     txt = input.group(2)
     if not txt:
-        return kenni.say("No search term!")
+        return cenni.say("No search term!")
     response = "[IP/Host Lookup] "
     try:
         page = web.get(base + txt)
     except IOError as err:
-        return kenni.say('Could not access given address. (Detailed error: %s)' % (err))
+        return cenni.say('Could not access given address. (Detailed error: %s)' % (err))
     try:
         results = json.loads(page.decode('utf-8'))
     except:
-        return kenni.say('Did not receive proper JSON from %s' % (base))
+        return cenni.say('Did not receive proper JSON from %s' % (base))
     if results:
         response += txt
         spacing = ' |'
@@ -47,7 +47,7 @@ def ip_lookup(kenni, input):
             response += '%s AS: %s' % (spacing, results['as'])
         if  'isp' in results:
             response += '%s ISP: %s' % (spacing, results['isp'])
-    kenni.say(response)
+    cenni.say(response)
 ip_lookup.commands = ['ip','geoip', 'iplookup']
 ip_lookup.example = ".iplookup 8.8.8.8"
 

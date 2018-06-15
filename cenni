@@ -3,7 +3,7 @@ import sys, os, imp, optparse
 from configs import Configs
 from textwrap import dedent as trim
 
-dotdir = os.path.expanduser('~/Kenni/config')
+dotdir = os.path.expanduser('~/Cenni/config')
 configpath = os.path.expanduser(dotdir + '/default.py')
 
 if getattr(os, 'geteuid', None) and os.geteuid() == 0:
@@ -23,16 +23,16 @@ def create_default_config(fn):
     # Lines that begin with a "#" are comments.
     # Remove the "#" from the beginning of a line to make those lines active.
 
-    nick = 'kenni'
+    nick = 'cenni'
     host = 'irc.example.net'
     port = 6667
     ssl  = False
     sasl = False
     channels = ['#example', '#test']
     prefix = r'\+'
-    # Channel kenni will report all private messages sent to her to.
+    # Channel cenni will report all private messages sent to her to.
     # This includes server notices.
-    # logchan_pm = '#kenni-log'
+    # logchan_pm = '#cenni-log'
 
     # You can also specify nick@hostmask
     # For example: yano@unaffiliated/yano
@@ -45,7 +45,7 @@ def create_default_config(fn):
     # password is the NickServ password, serverpass is the server password
     # password = 'example'
     # serverpass = 'serverpass'
-    ident = 'kenni'
+    ident = 'cenni'
 
     ## API KEYS
 
@@ -99,7 +99,7 @@ def create_default_config(fn):
        # '#channel1': r'\$'
         }
 
-    # Enable raw logging of everything kenni sees.
+    # Enable raw logging of everything cenni sees.
     # logged to the folder 'log'
     logging = False
 
@@ -136,16 +136,16 @@ def create_default_config(fn):
 def create_configfile(dotdir):
 
     if not os.path.isdir(dotdir):
-        sys.stderr.write('Creating a config directory at ~/Kenni/config...')
+        sys.stderr.write('Creating a config directory at ~/Cenni/config...')
         try: os.mkdir(dotdir)
         except Exception as e:
             sys.stderr.write('There was a problem creating %s:' % dotdir)
             sys.stderr.write(e.__class__, str(e))
-            sys.stderr.write('Please fix this and then run kenni again.')
+            sys.stderr.write('Please fix this and then run cenni again.')
             sys.exit(1)
 
     create_default_config(configpath)
-    sys.stdout.write('Config file generated. Please edit it at ' + configpath + ' and run ./kenni again.')
+    sys.stdout.write('Config file generated. Please edit it at ' + configpath + ' and run ./cenni again.')
 
     sys.exit(0)
 
@@ -200,11 +200,11 @@ def initialize_configs(config_path):
     # Give at least one module the config helper
     config_modules[0].config_helper = config_helper
 
-    # Step Four: Load kenni
+    # Step Four: Load cenni
 
     from __init__ import run
 
-    # Step Five: Initialise And Run The kennies
+    # Step Five: Initialise And Run The cennies
 
     # @@ ignore SIGHUP
     for config_module in config_modules:
@@ -221,7 +221,7 @@ def main(argv=None):
     # Step Two: Check Dependencies
 
     check_python_version() # require python2.4 or later
-    check_dotdir() # require ~/Kenni/config, or make it and exit
+    check_dotdir() # require ~/Cenni/config, or make it and exit
 
     # Step Three: Load The Configurations
 

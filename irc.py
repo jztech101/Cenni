@@ -46,7 +46,7 @@ def create_logdir():
     except Exception as e:
         print('There was a problem creating the logs directory.', file=sys.stderr)
         print(e.__class__, str(e), file=sys.stderr)
-        print('Please fix this and then run kenni again.', file=sys.stderr)
+        print('Please fix this and then run cenni again.', file=sys.stderr)
         sys.exit(1)
 
 def check_logdir():

@@ -128,7 +128,7 @@ def get_urllib_object(uri, timeout):
     except:
         pass
     while True:
-        req = urllib.request.Request(uri, headers={'Accept': '*/*', 'User-Agent': 'Mozilla/5.0 (kenni)'})
+        req = urllib.request.Request(uri, headers={'Accept': '*/*', 'User-Agent': 'Mozilla/5.0 (cenni)'})
         try:
             u = urllib.request.urlopen(req, None, timeout)
         except urllib.error.HTTPError as e:

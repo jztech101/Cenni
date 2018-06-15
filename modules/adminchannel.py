@@ -2,18 +2,18 @@
 import re
 import tools
 
-def is_chan_admin(kenni, input, a):
+def is_chan_admin(cenni, input, a):
     if input.admin:
         return True
-    elif hasattr(kenni.config, 'helpers'):
-        if a in kenni.config.helpers and input.host in kenni.config.helpers[a]:
+    elif hasattr(cenni.config, 'helpers'):
+        if a in cenni.config.helpers and input.host in cenni.config.helpers[a]:
             return True
     return False
 
-def voice(kenni, input):
+def voice(cenni, input):
     """
     Command to voice users in a room. If no nick is given,
-    kenni will voice the nick who sent the command
+    cenni will voice the nick who sent the command
     """
     text = input.group().split()
     argc = len(text)
@@ -29,14 +29,14 @@ def voice(kenni, input):
         else:
             nick = text[1]
     if channel is not None:
-        if not is_chan_admin(kenni,input,channel):
-            return kenni.say('You must be an admin to perform this operation')
-        kenni.write(['MODE', channel, "+v", nick])
+        if not is_chan_admin(cenni,input,channel):
+            return cenni.say('You must be an admin to perform this operation')
+        cenni.write(['MODE', channel, "+v", nick])
 voice.commands = ['voice']
 voice.priority = 'low'
 voice.example = '.voice ##example or .voice ##example nick'
 
-def mode(kenni, input):
+def mode(cenni, input):
     """
     """
     text = input.group().split()
@@ -52,16 +52,16 @@ def mode(kenni, input):
         else:
             modex = " ".join(text[1:])
     if channel is not None:
-        if not is_chan_admin(kenni,input,channel):
-            return kenni.say('You must be an admin to perform this operation')
-        kenni.write(['MODE', channel, modex])
+        if not is_chan_admin(cenni,input,channel):
+            return cenni.say('You must be an admin to perform this operation')
+        cenni.write(['MODE', channel, modex])
 mode.commands = ['mode']
 mode.priority = 'low'
 
-def invite(kenni, input):
+def invite(cenni, input):
     """
     Command to voice users in a room. If no nick is given,
-    kenni will voice the nick who sent the command
+    cenni will voice the nick who sent the command
     """
     text = input.group().split()
     argc = len(text)
@@ -77,17 +77,17 @@ def invite(kenni, input):
         else:
             nick = text[1]
     if channel is not None:
-        if not is_chan_admin(kenni,input,channel):
-            return kenni.say('You must be an admin to perform this operation')
-        kenni.write(['PRIVMSG', channel], '\x01ACTION invites ' + nick + ' per ' + input.nick + '\x01')
-        kenni.write(['INVITE', nick], channel)
+        if not is_chan_admin(cenni,input,channel):
+            return cenni.say('You must be an admin to perform this operation')
+        cenni.write(['PRIVMSG', channel], '\x01ACTION invites ' + nick + ' per ' + input.nick + '\x01')
+        cenni.write(['INVITE', nick], channel)
 invite.commands = ['invite']
 invite.priority = 'low'
 
-def devoice(kenni, input):
+def devoice(cenni, input):
     """
     Command to devoice users in a room. If no nick is given,
-    kenni will devoice the nick who sent the command
+    cenni will devoice the nick who sent the command
     """
     text = input.group().split()
     argc = len(text)
@@ -103,17 +103,17 @@ def devoice(kenni, input):
         else:
             nick = text[1]
     if channel is not None:
-        if not is_chan_admin(kenni,input,channel):
-            return kenni.say('You must be an admin to perform this operation')
-        kenni.write(['MODE', channel, "-v", nick])
+        if not is_chan_admin(cenni,input,channel):
+            return cenni.say('You must be an admin to perform this operation')
+        cenni.write(['MODE', channel, "-v", nick])
 devoice.commands = ['devoice']
 devoice.priority = 'low'
 devoice.example = '.devoice ##example or .devoice ##example nick'
 
-def op(kenni, input):
+def op(cenni, input):
     """
     Command to op users in a room. If no nick is given,
-    kenni will op the nick who sent the command
+    cenni will op the nick who sent the command
     """
     text = input.group().split()
     argc = len(text)
@@ -129,14 +129,14 @@ def op(kenni, input):
         else:
             nick = text[1]
     if channel is not None:
-        if not is_chan_admin(kenni,input,channel):
-            return kenni.say('You must be an admin to perform this operation')
-        kenni.write(['MODE', channel, "+o", nick])
+        if not is_chan_admin(cenni,input,channel):
+            return cenni.say('You must be an admin to perform this operation')
+        cenni.write(['MODE', channel, "+o", nick])
 op.commands = ['op']
 op.priority = 'low'
 op.example = '.op ##example or .op ##example nick'
 
-def deop(kenni, input):
+def deop(cenni, input):
     text = input.group().split()
     argc = len(text)
     nick = input.nick
@@ -151,14 +151,14 @@ def deop(kenni, input):
         else:
             nick = text[1]
     if channel is not None:
-        if not is_chan_admin(kenni,input,channel):
-            return kenni.say('You must be an admin to perform this operation')
-        kenni.write(['MODE', channel, "-o", nick])
+        if not is_chan_admin(cenni,input,channel):
+            return cenni.say('You must be an admin to perform this operation')
+        cenni.write(['MODE', channel, "-o", nick])
 deop.commands = ['deop']
 deop.priority = 'low'
 deop.example = '.deop ##example or .deop ##example nick'
 
-def kick(kenni, input):
+def kick(cenni, input):
     text = input.group().split()
     argc = len(text)
     channel = input.sender
@@ -173,26 +173,26 @@ def kick(kenni, input):
     else:
         if (argc > 2):
             reasonidx = " ".join(text[2:])
-    if not is_chan_admin(kenni, input, channel):
-        return kenni.say('You must be an admin to perform this operation')
+    if not is_chan_admin(cenni, input, channel):
+        return cenni.say('You must be an admin to perform this operation')
     if "," in nick:
         nicks = nick.split(",")
         for nic in nicks:
-            kickx(kenni, channel, nic, input.nick, reasonidx)
+            kickx(cenni, channel, nic, input.nick, reasonidx)
     else:
-        kickx(kenni, channel, nick, input.nick, reasonidx)
+        kickx(cenni, channel, nick, input.nick, reasonidx)
 kick.commands = ['kick']
 kick.priority = 'high'
 
-def kickx(kenni, channel, nick, sender, reasonidx):
-    if nick == kenni.nick:
+def kickx(cenni, channel, nick, sender, reasonidx):
+    if nick == cenni.nick:
         nick = sender
-    kenni.write(['KICK', channel, nick, ' :', "[" + sender + "] " + reasonidx])
+    cenni.write(['KICK', channel, nick, ' :', "[" + sender + "] " + reasonidx])
 
-def configureHostMask (mask, kenni):
+def configureHostMask (mask, cenni):
     if "!" not in mask and "@" not in mask and ":" not in mask:
-        ident = kenni.idents[mask]
-        host = kenni.hostmasks[mask]
+        ident = cenni.idents[mask]
+        host = cenni.hostmasks[mask]
         if "~" not in ident:
             return "*!" + ident + "@" + host
         else:
@@ -200,7 +200,7 @@ def configureHostMask (mask, kenni):
     else:
         return mask
 
-def ban (kenni, input):
+def ban (cenni, input):
     """
     This give admins the ability to ban a user.
     The bot must be a Channel Operator for this command to work.
@@ -215,15 +215,15 @@ def ban (kenni, input):
         if argc < 3: return
         channel = opt
         banmask = text[2]
-    if not is_chan_admin(kenni,input,channel):
-        return kenni.say('You must be an admin to perform this operation')
-    banmask = configureHostMask(banmask, kenni)
+    if not is_chan_admin(cenni,input,channel):
+        return cenni.say('You must be an admin to perform this operation')
+    banmask = configureHostMask(banmask, cenni)
     if banmask == '': return
-    kenni.write(['MODE', channel, '+b', banmask])
+    cenni.write(['MODE', channel, '+b', banmask])
 ban.commands = ['ban']
 ban.priority = 'high'
 
-def unban (kenni, input):
+def unban (cenni, input):
     """
     This give admins the ability to unban a user.
     The bot must be a Channel Operator for this command to work.
@@ -238,15 +238,15 @@ def unban (kenni, input):
         if argc < 3: return
         channel = opt
         banmask = text[2]
-    if not is_chan_admin(kenni,input,channel):
-        return kenni.say('You must be an admin to perform this operation')
-    banmask = configureHostMask(banmask, kenni)
+    if not is_chan_admin(cenni,input,channel):
+        return cenni.say('You must be an admin to perform this operation')
+    banmask = configureHostMask(banmask, cenni)
     if banmask == '': return
-    kenni.write(['MODE', channel, '-b', banmask])
+    cenni.write(['MODE', channel, '-b', banmask])
 unban.commands = ['unban']
 unban.priority = 'high'
 
-def quiet (kenni, input):
+def quiet (cenni, input):
    """
    This gives admins the ability to quiet a user.
    The bot must be a Channel Operator for this command to work
@@ -261,15 +261,15 @@ def quiet (kenni, input):
        if argc < 3: return
        channel = opt
        banmask = text[2]
-   if not is_chan_admin(kenni, input, channel):
-       return kenni.say('You must be an admin to perform this operation')
-   quietmask = configureHostMask(banmask, kenni)
+   if not is_chan_admin(cenni, input, channel):
+       return cenni.say('You must be an admin to perform this operation')
+   quietmask = configureHostMask(banmask, cenni)
    if quietmask == '': return
-   kenni.write(['MODE', channel, '+q', quietmask])
+   cenni.write(['MODE', channel, '+q', quietmask])
 quiet.commands = ['quiet']
 quiet.priority = 'high'
 
-def unquiet (kenni, input):
+def unquiet (cenni, input):
    """
    This gives admins the ability to unquiet a user.
    The bot must be a Channel Operator for this command to work
@@ -284,15 +284,15 @@ def unquiet (kenni, input):
        if argc < 3: return
        channel = opt
        banmask = text[2]
-   if not is_chan_admin(kenni, input, channel):
-       return kenni.say('You must be an admin to perform this operation')
-   quietmask = configureHostMask(banmask, kenni)
+   if not is_chan_admin(cenni, input, channel):
+       return cenni.say('You must be an admin to perform this operation')
+   quietmask = configureHostMask(banmask, cenni)
    if quietmask == '': return
-   kenni.write(['MODE', channel, '-q', quietmask])
+   cenni.write(['MODE', channel, '-q', quietmask])
 unquiet.commands = ['unquiet']
 unquiet.priority = 'high'
 
-def kickban (kenni, input):
+def kickban (cenni, input):
    """
    This gives admins the ability to kickban a user.
    The bot must be a Channel Operator for this command to work
@@ -312,16 +312,16 @@ def kickban (kenni, input):
    else:
        if(argc >2):
            reasonidx = " ".join(text[2:])
-   if not is_chan_admin(kenni, input, channel):
-       return kenni.say('You must be an admin to perform this operation')
-   mask = configureHostMask(nick,kenni)
+   if not is_chan_admin(cenni, input, channel):
+       return cenni.say('You must be an admin to perform this operation')
+   mask = configureHostMask(nick,cenni)
    if mask == '': return
-   kenni.write(['MODE', channel, '+b', mask])
-   kickx(kenni, channel, nick, input.nick, reasonidx)
+   cenni.write(['MODE', channel, '+b', mask])
+   kickx(cenni, channel, nick, input.nick, reasonidx)
 kickban.commands = ['kickban', 'kb', 'kban']
 kickban.priority = 'high'
 
-def topic(kenni, input):
+def topic(cenni, input):
     """
     This gives admins the ability to change the topic.
     Note: One does *NOT* have to be an OP, one just has to be on the list of
@@ -335,11 +335,11 @@ def topic(kenni, input):
         if argc < 2: return
         channel = text[1]
         topic = ' '.join(text[2:])
-    if not is_chan_admin(kenni,input,channel):
-        return kenni.say('You must be an admin to perform this operation')
+    if not is_chan_admin(cenni,input,channel):
+        return cenni.say('You must be an admin to perform this operation')
     if topic == '':
         return
-    kenni.write(['TOPIC', channel], topic)
+    cenni.write(['TOPIC', channel], topic)
     return
 topic.commands = ['topic']
 topic.priority = 'low'

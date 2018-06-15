@@ -5,7 +5,7 @@ import traceback
 
 home = os.getcwd()
 
-class kenni(irc.Bot):
+class cenni(irc.Bot):
     def __init__(self, config):
         lc_pm = None
         if hasattr(config, "logchan_pm"): lc_pm = config.logchan_pm
@@ -183,9 +183,9 @@ class kenni(irc.Bot):
                 for command in func.commands:
                     bind_command(self, func.priority, command, func)
     def wrapped(self, origin, text, match):
-        class kenniWrapper(object):
-            def __init__(self, kenni):
-                self._bot = kenni
+        class cenniWrapper(object):
+            def __init__(self, cenni):
+                self._bot = cenni
 
             def __getattr__(self, attr):
                 sender = origin.sender or text
@@ -196,12 +196,12 @@ class kenni(irc.Bot):
             def __setattr__(self, attr, value):
                 if attr in ('_bot',):
                     # Explicitly allow the wrapped class to be set during __init__()
-                    return super(kenniWrapper, self).__setattr__(attr, value)
+                    return super(cenniWrapper, self).__setattr__(attr, value)
                 else:
                     # All other attributes will be set on the wrapped class transparently
                     return setattr(self._bot, attr, value)
 
-        return kenniWrapper(self)
+        return cenniWrapper(self)
 
     def input(self, origin, text, match, event, args):
         class CommandInput(str):
@@ -245,7 +245,7 @@ class kenni(irc.Bot):
 
         return CommandInput(text, origin, match, event, args)
 
-    def call(self, func, origin, kenni, input):
+    def call(self, func, origin, cenni, input):
         nick = (input.nick).lower()
         try:
             if hasattr(self, 'excludes'):
@@ -262,12 +262,12 @@ class kenni(irc.Bot):
             self.error(origin)
 
         try:
-            func(kenni, input)
+            func(cenni, input)
         except Exception as e:
             self.error(origin)
 
     def dispatchcommand(self,origin,args,  text, match, event, func):
-        kenni = self.wrapped(origin, text, match)
+        cenni = self.wrapped(origin, text, match)
         input = self.input(origin, text, match, event, args)
         nick = (input.nick).lower()
         # blocking ability
@@ -332,11 +332,11 @@ class kenni(irc.Bot):
 
         # stats
         if func.thread:
-            targs = (func, origin, kenni, input)
+            targs = (func, origin, cenni, input)
             t = threading.Thread(target=self.call, args=targs)
             t.start()
         else:
-            self.call(func, origin, kenni, input)
+            self.call(func, origin, cenni, input)
 
         for source in [origin.sender, origin.nick]:
             try:

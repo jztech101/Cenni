@@ -5,32 +5,32 @@ import tools
 
 ## TODO: Make it save .db to disk
 
-def f_seen(kenni, input):
+def f_seen(cenni, input):
     """.seen <nick> - Reports when <nick> was last seen."""
 
     if not input.group(2):
-        return kenni.say('Please provide a nick.')
+        return cenni.say('Please provide a nick.')
     nick = input.group(2).lower()
 
-    if not hasattr(kenni, 'seen'):
-        return kenni.say('?')
+    if not hasattr(cenni, 'seen'):
+        return cenni.say('?')
 
-    if nick in kenni.seen:
-        channel, t = kenni.seen[nick]
+    if nick in cenni.seen:
+        channel, t = cenni.seen[nick]
         t = time.strftime('%Y-%m-%d %H:%M:%S UTC', time.gmtime(t))
         msg = 'I last saw %s at %s in some channel.' % (nick, t)
-        kenni.say(msg)
+        cenni.say(msg)
     else:
-        kenni.say("Sorry, I haven't seen %s around." % nick)
+        cenni.say("Sorry, I haven't seen %s around." % nick)
 f_seen.rule = r'(?i)^\+(seen)\s+(\w+)'
 f_seen.rate = 15
 
-def f_note(kenni, input):
+def f_note(cenni, input):
     try:
-        if not hasattr(kenni, 'seen'):
-            kenni.seen = dict()
+        if not hasattr(cenni, 'seen'):
+            cenni.seen = dict()
         if tools.isChan(input.sender, False):
-            kenni.seen[input.nick.lower()] = (input.sender, time.time())
+            cenni.seen[input.nick.lower()] = (input.sender, time.time())
     except Exception as e: print(e)
 f_note.rule = r'(.*)'
 f_note.priority = 'low'
