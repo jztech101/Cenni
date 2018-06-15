@@ -72,7 +72,7 @@ def create_default_config(fn):
        # '#channel1': r'\$'
         }
     topicsplit = {
-       # '#channel': r' || '
+       # '#channel': ' || '
         }
     # Enable raw logging of everything cenni sees.
     # logged to the folder 'log'
