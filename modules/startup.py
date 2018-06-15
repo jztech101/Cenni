@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3w
 import threading, time, sys
 import tools
 
@@ -45,6 +45,13 @@ def setup(cenni):
 
         cenni.handle_connect = outer_handle_connect
 
+def nick(cenni,input):
+   for channel in cenni.channels:
+       cenni.write(['WHO', channel])
+nick.rule = r'(.*)'
+nick.event = 'NICK'
+nick.priority = 'high'
+
 def startup(cenni, input):
     import time
 
@@ -62,8 +69,8 @@ def startup(cenni, input):
 
     # Cf. http://swhack.com/logs/2005-12-05#T19-32-36
     for channel in cenni.channels:
-        cenni.join(channel, None)
-        time.sleep(0.5)
+       cenni.join(channel, None)
+       time.sleep(0.5)
 startup.rule = r'(.*)'
 startup.event = '251'
 startup.priority = 'low'
