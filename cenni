@@ -47,33 +47,6 @@ def create_default_config(fn):
     # serverpass = 'serverpass'
     ident = 'cenni'
 
-    ## API KEYS
-
-    # forecastio_apikey is for an API key from https://forecast.io/
-    # This is useful if you want extended weather information.
-    # Required if you want .weather to work.
-    # If not, you can use .weather-noaa or .wx-noaa
-    # forecastio_apikey = ''
-
-    # wunderground_apikey is for an API key from http://www.wunderground.com/
-    # This is useful if you want more local and *live* weather information.
-    # This is optional and doesn't need to be added.
-    # wunderground_apikey = ''
-
-    # google_dev_apikey is for an API key from Google Developers
-    # https://developers.google.com/api-client-library/python/guide/aaa_apikeys
-    # Get a Server API Key; this is required for YouTube to work.
-    # google_dev_apikey = ''
-
-    # wolframalpha_apikey is for an API key from Wolfram|Alpha
-    # http://products.wolframalpha.com/api/
-    # This is needed in order to make .calc/.c have more comprehensive answers.
-    # wolframalpha_apikey = ''
-    # omdb_apikey  = ''
-    
-    # yelp API Key
-    # yelp_apikey = ''
-
 
     # You can add bannable words / regex per channel
     # bad_words = {
