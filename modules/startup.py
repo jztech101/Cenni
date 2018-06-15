@@ -1,4 +1,4 @@
-#!/usr/bin/env python3w
+#!/usr/bin/env python3
 import threading, time, sys
 import tools
 
