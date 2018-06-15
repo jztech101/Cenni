@@ -2,74 +2,74 @@
 import threading, time, sys
 import tools
 
-def setup(kenni):
+def setup(cenni):
     # by clsn
-    kenni.data = {}
+    cenni.data = {}
     refresh_delay = 300.0
 
-    if hasattr(kenni.config, 'refresh_delay'):
-        try: refresh_delay = float(kenni.config.refresh_delay)
+    if hasattr(cenni.config, 'refresh_delay'):
+        try: refresh_delay = float(cenni.config.refresh_delay)
         except: pass
 
         def close():
             print("Nobody PONGed our PING, restarting")
-            kenni.handle_close()
+            cenni.handle_close()
 
         def pingloop():
             timer = threading.Timer(refresh_delay, close, ())
-            kenni.data['startup.setup.timer'] = timer
-            kenni.data['startup.setup.timer'].start()
+            cenni.data['startup.setup.timer'] = timer
+            cenni.data['startup.setup.timer'].start()
             # print "PING!"
-            kenni.write(('PING', kenni.config.host))
-        kenni.data['startup.setup.pingloop'] = pingloop
+            cenni.write(('PING', cenni.config.host))
+        cenni.data['startup.setup.pingloop'] = pingloop
 
-        def pong(kenni, input):
+        def pong(cenni, input):
             try:
                 # print "PONG!"
-                kenni.data['startup.setup.timer'].cancel()
+                cenni.data['startup.setup.timer'].cancel()
                 time.sleep(refresh_delay + 60.0)
                 pingloop()
             except: pass
         pong.event = 'PONG'
         pong.thread = True
         pong.rule = r'.*'
-        kenni.variables['pong'] = pong
+        cenni.variables['pong'] = pong
 
         # Need to wrap handle_connect to start the loop.
-        inner_handle_connect = kenni.handle_connect
+        inner_handle_connect = cenni.handle_connect
 
         def outer_handle_connect():
             inner_handle_connect()
-            if kenni.data.get('startup.setup.pingloop'):
-                kenni.data['startup.setup.pingloop']()
+            if cenni.data.get('startup.setup.pingloop'):
+                cenni.data['startup.setup.pingloop']()
 
-        kenni.handle_connect = outer_handle_connect
+        cenni.handle_connect = outer_handle_connect
 
-def startup(kenni, input):
+def startup(cenni, input):
     import time
 
-    if hasattr(kenni.config, 'serverpass') and not kenni.auth_attempted:
-        kenni.write(('PASS', kenni.config.serverpass))
+    if hasattr(cenni.config, 'serverpass') and not cenni.auth_attempted:
+        cenni.write(('PASS', cenni.config.serverpass))
 
-    if not kenni.is_authenticated and hasattr(kenni.config, 'password'):
-        if hasattr(kenni.config, 'user') and kenni.config.user is not None:
-            user = kenni.config.user
+    if not cenni.is_authenticated and hasattr(cenni.config, 'password'):
+        if hasattr(cenni.config, 'user') and cenni.config.user is not None:
+            user = cenni.config.user
         else:
-            user = kenni.config.nick
+            user = cenni.config.nick
 
-        kenni.msg('NickServ', 'IDENTIFY %s %s' % (user, kenni.config.password))
+        cenni.msg('NickServ', 'IDENTIFY %s %s' % (user, cenni.config.password))
         time.sleep(10)
 
     # Cf. http://swhack.com/logs/2005-12-05#T19-32-36
-    for channel in kenni.channels:
-        kenni.join(channel, None)
+    for channel in cenni.channels:
+        cenni.join(channel, None)
         time.sleep(0.5)
 startup.rule = r'(.*)'
 startup.event = '251'
 startup.priority = 'low'
 
 # Method for populating op/hop/voice information in channels on join
-def privs_on_join(kenni, input):
+def privs_on_join(cenni, input):
     if not input.mode_target or not tools.isChan(input.mode_target, False):
         return
     channel = input.mode_target
@@ -78,35 +78,35 @@ def privs_on_join(kenni, input):
         for name in split_names:
             nick_mode, nick = name[0], name[1:]
             if nick_mode == '@':
-                kenni.add_op(channel, nick)
+                cenni.add_op(channel, nick)
             elif nick_mode == '%':
-                kenni.add_halfop(channel, nick)
+                cenni.add_halfop(channel, nick)
             elif nick_mode == '+':
-                kenni.add_voice(channel, nick_mode + nick)
+                cenni.add_voice(channel, nick_mode + nick)
 privs_on_join.rule = r'(.*)'
 privs_on_join.event = '353'
 privs_on_join.priority = 'high'
 
-def hostmask_on_join(kenni, input):
+def hostmask_on_join(cenni, input):
     if not input.mode or not tools.isChan(input.mode, False):
         return
-    kenni.set_hostmask(input.other2, input.names)
-    kenni.set_ident(input.other2, input.mode_target)
+    cenni.set_hostmask(input.other2, input.names)
+    cenni.set_ident(input.other2, input.mode_target)
 hostmask_on_join.rule = r'(.*)'
 hostmask_on_join.event = '352'
 hostmask_on_join.priority = 'high'
 
-def new_Join_Hostmask(kenni, input):
+def new_Join_Hostmask(cenni, input):
     if not input.sender or not tools.isChan(input.sender, False):
         return
-    kenni.set_hostmask(input.nick, input.host)
-    kenni.set_ident(input.nick, input.user)
+    cenni.set_hostmask(input.nick, input.host)
+    cenni.set_ident(input.nick, input.user)
 new_Join_Hostmask.rule = r'(.*)'
 new_Join_Hostmask.event = 'JOIN'
 new_Join_Hostmask.priority = 'high'
 
 # Method for tracking changes to ops/hops/voices in channels
-def track_priv_change(kenni, input):
+def track_priv_change(cenni, input):
     if not input.sender or not tools.isChan(input.sender, False):
         return
 
@@ -123,18 +123,18 @@ def track_priv_change(kenni, input):
 
             if add_mode:
                 if mode_change == 'o':
-                    kenni.add_op(channel, mode_target)
+                    cenni.add_op(channel, mode_target)
                 elif mode_change == 'h':
-                    kenni.add_halfop(channel, mode_target)
+                    cenni.add_halfop(channel, mode_target)
                 elif mode_change == 'v':
-                    kenni.add_voice(channel, mode_target)
+                    cenni.add_voice(channel, mode_target)
             else:
                 if mode_change == 'o':
-                    kenni.del_op(channel, mode_target)
+                    cenni.del_op(channel, mode_target)
                 elif mode_change == 'h':
-                    kenni.del_halfop(channel, mode_target)
+                    cenni.del_halfop(channel, mode_target)
                 elif mode_change == 'v':
-                    kenni.del_voice(channel, mode_target)
+                    cenni.del_voice(channel, mode_target)
 track_priv_change.rule = r'(.*)'
 track_priv_change.event = 'MODE'
 track_priv_change.priority = 'high'

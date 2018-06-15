@@ -13,9 +13,9 @@ def git_info():
     return commit, author, date
 
 
-def version(kenni, input):
+def version(cenni, input):
 
-    kenni.say("Kenni")
+    cenni.say("Cenni")
 version.commands = ['version']
 version.priority = 'medium'
 version.rate = 10

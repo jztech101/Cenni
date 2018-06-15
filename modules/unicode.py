@@ -7,7 +7,7 @@ control_chars = ''.join(map(chr, list(range(0,32)) + list(range(127,160))))
 control_char_re = re.compile('[%s]' % re.escape(control_chars))
 
 
-def supercombiner(kenni, input):
+def supercombiner(cenni, input):
     """.sc -- displays the infamous supercombiner"""
     s = 'u'
     for i in range(1, 3000):
@@ -15,7 +15,7 @@ def supercombiner(kenni, input):
             s += chr(i)
         if len(s) > 100:
             break
-    kenni.say(s)
+    cenni.say(s)
 supercombiner.commands = ['sc']
 supercombiner.rate = 30
 

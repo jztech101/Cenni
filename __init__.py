@@ -19,13 +19,13 @@ class Watcher(object):
         try: os.kill(self.child, signal.SIGKILL)
         except OSError: pass
 
-def run_kenni(config):
+def run_cenni(config):
     if hasattr(config, 'delay'):
         delay = config.delay
     else: delay = 20
 
     def connect(config):
-        p = bot.kenni(config)
+        p = bot.cenni(config)
         p.use_ssl = config.ssl
         p.use_sasl = config.sasl
         p.run(config.host, config.port)
@@ -47,7 +47,7 @@ def run_kenni(config):
         time.sleep(delay)
 
 def run(config):
-    t = threading.Thread(target=run_kenni, args=(config,))
+    t = threading.Thread(target=run_cenni, args=(config,))
     if hasattr(t, 'run'):
         t.run()
     else: t.start()

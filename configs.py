@@ -15,7 +15,7 @@ class Configs():
                 module.prefix = r'\.'
 
             if not hasattr(module, 'name'):
-                module.name = 'Kenni: https://github.com/jztech101/kenni/'
+                module.name = 'Cenni: https://github.com/jztech101/cenni/'
 
             if not hasattr(module, 'port'):
                 module.port = 6667

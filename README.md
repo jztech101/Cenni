@@ -4,7 +4,7 @@ Cenni requires python 3.x
 
 1. Run ./cenni - this creates a default config file
 2. Edit ~/Cenni/config/default.py
-3. Run ./cenni - this now runs kenni with your settings
+3. Run ./cenni - this now runs cenni with your settings
 
 Enjoy!
 
