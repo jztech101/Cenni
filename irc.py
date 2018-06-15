@@ -308,6 +308,7 @@ class Bot(asynchat.async_chat):
             line = line[:-1]
 
         if line:
+            print(line)
             if self.logchan_pm:
                 ## if logging to logging channel is enabled
                 ## send stuff in PM to logging channel
