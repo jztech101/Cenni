@@ -23,6 +23,8 @@ def join(cenni, input):
             ## 2 inputs
             key = inc[1]
         cenni.join(channel, key)
+        if channel not in cenni.channels:
+            cenni.channels.append(channel)
 join.commands = ['join']
 join.priority = 'medium'
 join.example = '.join #example or .join #example key'
@@ -38,8 +40,11 @@ def part(cenni, input):
         intentional_part = True
         if tools.isChan(input.sender, False) and (not sendmessage or not tools.isChan(sendmessage2[0], False)):
             cenni.write(['PART', input.sender])
+            cenni.channels.remove(input.sender)
         else:
             cenni.write(['PART', sendmessage2[0] + " :" ' '.join(sendmessage2[1:])])
+            #print(sendmessage2[0])
+            cenni.channels.remove(sendmessage2[0])
 part.commands = ['part']
 part.priority = 'medium'
 part.example = '.part #example'
