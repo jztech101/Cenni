@@ -163,8 +163,6 @@ class Bot(asynchat.async_chat):
         else:
             self.write(['JOIN', channel, key])
         self.write(['WHO', channel])
-
-
     def safe(self, string):
         """Remove newlines string."""
         if sys.version_info.major >= 3 and isinstance(string, bytes):
