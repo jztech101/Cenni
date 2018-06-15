@@ -48,16 +48,6 @@ def create_default_config(fn):
     ident = 'cenni'
 
 
-    # You can add bannable words / regex per channel
-    # bad_words = {
-    #   "#yourchan": ['badword', '(a|b).*c.*(d|e)']
-    # }
-    #
-    # This controls the number of warnings a user will receive
-    # before they are banned from the channel
-    # bad_word_limit = 1
-
-    # sed_enable = ['#channel']
     # These are people who will be able to use admin.py's functions...
     admins = [owner]
     #exclude = ['adminchannel', 'chicken_reply', 'insult', 'lispy', 'twss']
@@ -72,7 +62,7 @@ def create_default_config(fn):
        # '#channel1': r'\$'
         }
     topicsplit = {
-       # '#channel': r' || '
+       # '#channel': ' || '
         }
     # Enable raw logging of everything cenni sees.
     # logged to the folder 'log'
