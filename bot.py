@@ -222,6 +222,9 @@ class cenni(irc.Bot):
                 s.other = origin.other
                 s.other2 = origin.other2
                 s.other3 = origin.other3
+                s.other4 = origin.other4
+                s.other5 = origin.other5
+                s.other6 = origin.other6
                 s.names = origin.names
                 s.full_ident = origin.full_ident
                 s.admin = origin.nick in self.config.admins

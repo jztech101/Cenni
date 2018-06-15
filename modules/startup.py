@@ -47,7 +47,7 @@ def setup(cenni):
 
 def nick(cenni,input):
    for channel in cenni.channels:
-       cenni.write(['WHO', channel])
+       cenni.write(['WHO', channel, '%cuhsnfair'])
 nick.rule = r'(.*)'
 nick.event = 'NICK'
 nick.priority = 'high'
@@ -99,9 +99,23 @@ def hostmask_on_join(cenni, input):
         return
     cenni.set_hostmask(input.other2, input.names)
     cenni.set_ident(input.other2, input.mode_target)
+    cenni.set_server(input.other2, input.other)
+    cenni.set_realname(input.other2, input.other3)
 hostmask_on_join.rule = r'(.*)'
 hostmask_on_join.event = '352'
 hostmask_on_join.priority = 'high'
+
+def whox(cenni, input):
+    nick = input.other4
+    cenni.set_hostmask(nick, input.other)
+    cenni.set_ident(nick, input.mode_target)
+    cenni.set_ip(nick, input.names)
+    cenni.set_account(nick, input.other6)
+    cenni.set_server(nick,input.other2)
+    cenni.set_realname(nick, input.other3)
+whox.rule = r'(.*)'
+whox.event = '354'
+whox.priority = 'high'
 
 def new_Join_Hostmask(cenni, input):
     if not input.sender or not tools.isChan(input.sender, False):
