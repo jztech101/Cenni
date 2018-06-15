@@ -56,8 +56,36 @@ def host(cenni, input):
         cenni.say(input.group(2) + "!" + cenni.idents[input.group(2)] + "@" + cenni.hostmasks[input.group(2)])
     else:
         cenni.say("No hostmask found")
-host.commands = ['host', 'hostmask', 'who']
+host.commands = ['host', 'hostmask']
 host.example = "host nick"
 
+def who(cenni, input):
+    if input.group(2) in cenni.accounts and cenni.accounts[input.group(2)] != 0:
+       cenni.say(cenni.accounts[input.group(2)])
+    else:
+       cenni.say("No account found")
+who.commands = ['who']
+who.example = 'who'
+def server(cenni, input):
+    if input.group(2) in cenni.servers:
+       cenni.say(cenni.servers[input.group(2)])
+    else:
+       cenni.say("No server found")
+server.commands = ['server']
+server.example = 'server'
+def realname(cenni, input):
+    if input.group(2) in cenni.realnames:
+       cenni.say(cenni.realnames[input.group(2)])
+    else:
+       cenni.say("No real name found")
+realname.commands = ['realname']
+realname.example = 'realname'
+def checkip(cenni,input):
+    if input.group(2) in cenni.ips:
+       cenni.say(cenni.ips[input.group(2)])
+    else:
+       cenni.say("No IP Found")
+who.commands = ['checkip']
+who.example = 'checkip'
 if __name__ == '__main__':
     print(__doc__.strip())

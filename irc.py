@@ -6,7 +6,7 @@ import os, codecs
 import errno
 import tools
 
-IRC_CODES = ('001', '002', '003','004', '005', '253', '251', '252', '254', '255', '265', '266', '250', '315', '328', '332', '333', '352', '353', '366', '372', '375', '376', 'QUIT', 'NICK', 'JOIN')
+IRC_CODES = ('001', '354',  '002', '003','004', '005', '253', '251', '252', '254', '255', '265', '266', '250', '315', '328', '332', '333', '352', '353','354', '366', '372', '375', '376', 'QUIT', 'NICK', 'JOIN')
 cwd = os.getcwd()
 
 class Origin(object):
@@ -16,7 +16,7 @@ class Origin(object):
         match = Origin.source.match(source or '')
         self.nick, self.user, self.host = match.groups()
 
-        target = mode = mode_target = names = other = other2 = None
+        target = mode = mode_target = names = other = other2 = other4 = other5 = other6 = None
 
         arg_len = len(args)
         if arg_len > 1:
@@ -31,6 +31,12 @@ class Origin(object):
                             other = args[5]
                             if arg_len > 6:
                                 other2 = args[6]
+                                if arg_len > 7:
+                                    other4 = args[7]
+                                    if arg_len > 8:
+                                        other5 = args[8]
+                                        if arg_len > 9:
+                                            other6 = args[9]
         mappings = {bot.nick: self.nick, None: None}
         self.sender = mappings.get(target, target)
         self.mode = mode
@@ -38,6 +44,9 @@ class Origin(object):
         self.names = names
         self.other = other
         self.other2 = other2
+        self.other4 = other4
+        self.other5 = other5
+        self.other6 = other6
         self.other3 = target
         self.full_ident = source
 
@@ -105,6 +114,10 @@ class Bot(asynchat.async_chat):
         self.hostmasks = dict()
         self.idents = dict()
         self.stack_log = list()
+        self.accounts = dict()
+        self.servers = dict()
+        self.ips = dict()
+        self.realnames = dict()
         self.logchan_pm = logchan_pm
         self.logging = logging
         self.ipv6 = ipv6
@@ -162,7 +175,7 @@ class Bot(asynchat.async_chat):
             self.write(['JOIN'], channel)
         else:
             self.write(['JOIN', channel, key])
-        self.write(['WHO', channel])
+        self.write(['WHO', channel, '%cuhsnfair'])
     def safe(self, string):
         """Remove newlines string."""
         if sys.version_info.major >= 3 and isinstance(string, bytes):
@@ -456,6 +469,29 @@ class Bot(asynchat.async_chat):
             self.hops[channel].add(name)
         else:
             self.hops[channel] = set([name])
+    def set_account(self, name, account):
+        if name not in self.accounts:
+            self.accounts[name] = account
+        elif self.accounts[name] != account:
+            self.accounts[name] = account
+
+    def set_ip(self, name, ip):
+         if name not in self.ips:
+            self.ips[name] = ip
+         elif self.ips[name] != ip:
+            self.ips[name] = ip
+
+    def set_realname(self, name, realname):
+         if name not in self.realnames:
+            self.realnames[name] = realname
+         elif self.realnames[name] != realname:
+            self.realnames[name] = realname
+
+    def set_server(self, name, server):
+         if name not in self.servers:
+            self.servers[name] = server
+         elif self.servers[name] != server:
+            self.servers[name] = server
 
     def add_voice(self, channel, name):
         if channel in self.voices:
