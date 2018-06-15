@@ -108,7 +108,7 @@ class Bot(asynchat.async_chat):
         self.logchan_pm = logchan_pm
         self.logging = logging
         self.ipv6 = ipv6
-
+        self.channeltopics = dict()
         import threading
         self.sending = threading.RLock()
 
@@ -325,6 +325,11 @@ class Bot(asynchat.async_chat):
                             self.msg(self.logchan_pm, '[Invite] ' + dlist[0].replace(":","") + ': ' + dlist[3].replace(":",""), True)
                         else:
                             self.msg(self.logchan_pm, line, True)
+                    else:
+                       if dlist[1].strip() == 'TOPIC' and tools.isChan(dlist[2], True):
+                           self.set_channeltopic(dlist[2],' '.join(dlist[3:]).replace(":",""))
+                       elif dlist[1].strip() == '332' and tools.isChan(dlist[3], True):
+                           self.set_channeltopic(dlist[3],' '.join(dlist[4:]).replace(":",""))
             if self.logging:
                 ## if logging (to log file) is enabled
                 ## send stuff to the log file
@@ -442,13 +447,11 @@ class Bot(asynchat.async_chat):
             self.hostmasks[name] = hostmask
         elif self.hostmasks[name] != hostmask:
             self.hostmasks[name] = hostmask
-    
     def set_ident(self, name, ident):
         if name not in self.idents:
             self.idents[name] = ident
         elif self.idents[name] != ident:
             self.idents[name] = ident
-
     def add_halfop(self, channel, name):
         if channel in self.hops:
             self.hops[channel].add(name)
@@ -460,7 +463,11 @@ class Bot(asynchat.async_chat):
             self.voices[channel].add(name)
         else:
             self.voices[channel] = set([name])
-
+    def set_channeltopic(self, channel, topic):
+        if channel not in self.channeltopics:
+            self.channeltopics[channel] = topic
+        elif self.channeltopics[channel] != topic:
+            self.channeltopics[channel] = topic
     def del_op(self, channel, name):
         try: self.ops[channel].remove(name)
         except: pass
