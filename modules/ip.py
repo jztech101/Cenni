@@ -51,5 +51,13 @@ def ip_lookup(cenni, input):
 ip_lookup.commands = ['ip','geoip', 'iplookup']
 ip_lookup.example = ".iplookup 8.8.8.8"
 
+def host(cenni, input):
+    if input.group(2) in cenni.hostmasks:
+        cenni.say(input.group(2) + "!" + cenni.idents[input.group(2)] + "@" + cenni.hostmasks[input.group(2)])
+    else:
+        cenni.say("No hostmask found")
+host.commands = ['host', 'hostmask', 'who']
+host.example = "host nick"
+
 if __name__ == '__main__':
     print(__doc__.strip())
