@@ -71,7 +71,9 @@ def create_default_config(fn):
     prefixes = {
        # '#channel1': r'\$'
         }
-
+    topicsplit = {
+       # '#channel': r' || '
+        }
     # Enable raw logging of everything cenni sees.
     # logged to the folder 'log'
     logging = False
