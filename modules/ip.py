@@ -59,13 +59,13 @@ def host(cenni, input):
 host.commands = ['host', 'hostmask']
 host.example = "host nick"
 
-def who(cenni, input):
+def account(cenni, input):
     if input.group(2) in cenni.accounts and cenni.accounts[input.group(2)] != 0:
        cenni.say(cenni.accounts[input.group(2)])
     else:
        cenni.say("No account found")
-who.commands = ['who']
-who.example = 'who'
+account.commands = ['acct','account']
+account.example = 'account'
 def server(cenni, input):
     if input.group(2) in cenni.servers:
        cenni.say(cenni.servers[input.group(2)])
@@ -81,11 +81,11 @@ def realname(cenni, input):
 realname.commands = ['realname']
 realname.example = 'realname'
 def checkip(cenni,input):
-    if input.group(2) in cenni.ips:
-       cenni.say(cenni.ips[input.group(2)])
+    if input.group(2) in cenni.ipaddrs:
+       cenni.say(cenni.ipaddrs[input.group(2)])
     else:
        cenni.say("No IP Found")
-who.commands = ['checkip']
-who.example = 'checkip'
+checkip.commands = ['checkip','getip']
+checkip.example = 'checkip'
 if __name__ == '__main__':
     print(__doc__.strip())
