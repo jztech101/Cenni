@@ -94,24 +94,24 @@ privs_on_join.rule = r'(.*)'
 privs_on_join.event = '353'
 privs_on_join.priority = 'high'
 
-def hostmask_on_join(cenni, input):
+def whoo(cenni, input):
     if not input.mode or not tools.isChan(input.mode, False):
         return
-    cenni.set_hostmask(input.other2, input.names)
-    cenni.set_ident(input.other2, input.mode_target)
-    cenni.set_server(input.other2, input.other)
-    cenni.set_realname(input.other2, input.other3)
-hostmask_on_join.rule = r'(.*)'
-hostmask_on_join.event = '352'
-hostmask_on_join.priority = 'high'
+    nick = input.other2.lower()
+    cenni.set_hostmask(nick, input.names)
+    cenni.set_ident(nick, input.mode_target)
+    cenni.set_server(nick, input.other)
+    cenni.set_realname(nick, input.other3)
+whoo.rule = r'(.*)'
+whoo.event = '352'
+whoo.priority = 'high'
 
 def whox(cenni, input):
-    nick = input.other4
+    nick = input.other4.lower()
     cenni.set_hostmask(nick, input.other)
     cenni.set_ident(nick, input.mode_target)
     cenni.set_ipaddr(nick, input.names)
     cenni.set_account(nick, input.other6)
-    print(input.other3)
     cenni.set_server(nick,input.other2)
     cenni.set_realname(nick, input.rest)
 whox.rule = r'(.*)'
