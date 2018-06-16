@@ -2,9 +2,6 @@
 import time
 import tools
 
-
-## TODO: Make it save .db to disk
-
 def f_seen(cenni, input):
     """.seen <nick> - Reports when <nick> was last seen."""
 
@@ -22,8 +19,7 @@ def f_seen(cenni, input):
         cenni.say(msg)
     else:
         cenni.say("Sorry, I haven't seen %s around." % nick)
-f_seen.rule = r'(?i)^\+(seen)\s+(\w+)'
-f_seen.rate = 15
+f_seen.commands = ['seen']
 
 def f_note(cenni, input):
     try:
