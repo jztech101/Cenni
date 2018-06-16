@@ -16,7 +16,7 @@ class Origin(object):
         match = Origin.source.match(source or '')
         self.nick, self.user, self.host = match.groups()
 
-        target = mode = mode_target = names = other = other2 = other4 = other5 = other6 = None
+        target = mode = mode_target = names = other = other2 = other4 = rest = other5 = other6 = None
 
         arg_len = len(args)
         if arg_len > 1:
@@ -37,6 +37,8 @@ class Origin(object):
                                         other5 = args[8]
                                         if arg_len > 9:
                                             other6 = args[9]
+                                            if arg_len > 10:
+                                                rest = ' '.join(args[10:])
         mappings = {bot.nick: self.nick, None: None}
         self.sender = mappings.get(target, target)
         self.mode = mode
@@ -48,6 +50,7 @@ class Origin(object):
         self.other5 = other5
         self.other6 = other6
         self.other3 = target
+        self.rest = rest
         self.full_ident = source
 
 def create_logdir():
@@ -116,7 +119,7 @@ class Bot(asynchat.async_chat):
         self.stack_log = list()
         self.accounts = dict()
         self.servers = dict()
-        self.ips = dict()
+        self.ipaddrs = dict()
         self.realnames = dict()
         self.logchan_pm = logchan_pm
         self.logging = logging
@@ -475,11 +478,11 @@ class Bot(asynchat.async_chat):
         elif self.accounts[name] != account:
             self.accounts[name] = account
 
-    def set_ip(self, name, ip):
-         if name not in self.ips:
-            self.ips[name] = ip
-         elif self.ips[name] != ip:
-            self.ips[name] = ip
+    def set_ipaddr(self, name, ipaddr):
+         if name not in self.ipaddrs:
+            self.ipaddrs[name] = ipaddr
+         elif self.ipaddrs[name] != ipaddr:
+            self.ipaddrs[name] = ipaddr
 
     def set_realname(self, name, realname):
          if name not in self.realnames:

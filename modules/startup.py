@@ -109,10 +109,11 @@ def whox(cenni, input):
     nick = input.other4
     cenni.set_hostmask(nick, input.other)
     cenni.set_ident(nick, input.mode_target)
-    cenni.set_ip(nick, input.names)
+    cenni.set_ipaddr(nick, input.names)
     cenni.set_account(nick, input.other6)
+    print(input.other3)
     cenni.set_server(nick,input.other2)
-    cenni.set_realname(nick, input.other3)
+    cenni.set_realname(nick, input.rest)
 whox.rule = r'(.*)'
 whox.event = '354'
 whox.priority = 'high'
