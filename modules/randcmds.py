@@ -28,5 +28,9 @@ def hmmm(cenni, input):
     cenni.say(cenni.hostmasks["JZTech101"])
 hmmm.commands = ['hmmm']
 hmmm.priority = 'high'
+def burn(cenni, input):
+    cenni.write(['PRIVMSG', input.sender], '\x01ACTION watches the world burn\x01')
+burn.commands = ['burn']
+burn.priority = 'high'
 if __name__ == '__main__':
     print(__doc__.strip())
