@@ -24,8 +24,8 @@ def shrug(cenni, input):
 shrug.commands = ['shrug']
 shrug.priority = 'high'
 def hmmm(cenni, input):
-#    cenni.say('t' + u'\u200b' + 'est')
-    cenni.say(cenni.hostmasks["JZTech101"])
+    cenni.say('t' + u'\u200b' + 'est')
+#    cenni.say(cenni.hostmasks["JZTech101"])
 hmmm.commands = ['hmmm']
 hmmm.priority = 'high'
 def burn(cenni, input):

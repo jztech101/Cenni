@@ -6,8 +6,8 @@ import web
 from modules import unicode as uc
 
 def host(cenni, input):
-    if input.group(2) in cenni.hostmasks:
-        cenni.say(input.group(2) + "!" + cenni.idents[input.group(2)] + "@" + cenni.hostmasks[input.group(2)])
+    if input.group(2).lower() in cenni.hostmasks:
+        cenni.say(input.group(2) + "!" + cenni.idents[input.group(2).lower()] + "@" + cenni.hostmasks[input.group(2).lower()])
     else:
         cenni.say("No hostmask found")
 host.commands = ['host', 'hostmask']

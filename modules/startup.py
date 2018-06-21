@@ -121,8 +121,8 @@ whox.priority = 'high'
 def new_Join_Hostmask(cenni, input):
     if not input.sender or not tools.isChan(input.sender, False):
         return
-    cenni.set_hostmask(input.nick, input.host)
-    cenni.set_ident(input.nick, input.user)
+    cenni.set_hostmask(input.nick.lower(), input.host)
+    cenni.set_ident(input.nick.lower(), input.user)
 new_Join_Hostmask.rule = r'(.*)'
 new_Join_Hostmask.event = 'JOIN'
 new_Join_Hostmask.priority = 'high'
