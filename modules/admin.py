@@ -3,8 +3,6 @@ import os
 import time
 import tools
 
-intentional_part = False
-
 def join(cenni, input):
     '''Join the specified channel. This is an owner-only command.'''
     if not input.owner:
@@ -37,7 +35,6 @@ def part(cenni, input):
         sendmessage2 = []
         if sendmessage:
             sendmessage2 = sendmessage.split(" ")
-        intentional_part = True
         if tools.isChan(input.sender, False) and (not sendmessage or not tools.isChan(sendmessage2[0], False)):
             cenni.write(['PART', input.sender])
             cenni.channels.remove(input.sender)
@@ -102,37 +99,6 @@ def act(cenni, input):
         cenni.write(['PRIVMSG', channel], '\x01ACTION ' + msg + '\x01')
 act.commands = ['act', 'do']
 act.priority = 'low'
-
-
-def defend_ground(cenni, input):
-    '''
-    This function monitors all kicks across all channels cenni is in. If she
-    detects that she is the one kicked she'll automatically join that channel.
-
-    WARNING: This may not be needed and could cause problems if cenni becomes
-    annoying. Please use this with caution.
-    '''
-    channel = input.sender
-    cenni.join(channel, None)
-    time.sleep(10)
-    cenni.join(channel, None)
-defend_ground.event = 'KICK'
-defend_ground.rule = '.*'
-defend_ground.priority = 'low'
-
-
-def defend_ground2(cenni, input):
-    global intentional_part
-    if not intentional_part and input.nick == cenni.config.nick:
-        intentional_part = False
-        channel = input.sender
-        cenni.join(channel, None)
-        time.sleep(10)
-        cenni.join(channel, None)
-defend_ground2.event = 'PART'
-defend_ground2.rule = '.*'
-defend_ground2.priority = 'low'
-
 
 def blocks(cenni, input):
     if not input.admin: return
