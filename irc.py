@@ -328,7 +328,7 @@ class Bot(asynchat.async_chat):
                 ## send stuff in PM to logging channel
                 dlist = line.split()
                 if len(dlist) >= 3:
-                    if (not tools.isChan(dlist[2],True) or dlist[1].strip() == 'NOTICE') and dlist[1].strip() not in IRC_CODES:
+                    if (not tools.isChan(dlist[2],True) or dlist[1].strip() == 'NOTICE'):
                         if dlist[1].strip() == 'NOTICE':
                             if tools.isChan(dlist[2],True):
                                 self.msg(self.logchan_pm, '[Notice] ' + dlist[0].replace(':','') + ': (' + dlist[2] + ') ' + ' '.join(dlist[3:]).replace(":",""), True)
@@ -338,9 +338,9 @@ class Bot(asynchat.async_chat):
                             self.msg(self.logchan_pm, '[PM] ' + dlist[0].replace(":","") + ': ' + ' '.join(dlist[3:]).replace(":",""), True)
                         elif dlist[1].strip() == 'INVITE':
                             self.msg(self.logchan_pm, '[Invite] ' + dlist[0].replace(":","") + ': ' + dlist[3].replace(":",""), True)
-                        else:
+                        elif dlist[1].strip() not in IRC_CODES:
                             self.msg(self.logchan_pm, line, True)
-                    elif tools.isChan(dlist[2], True) and dlist[1].strip() not in IRC_CODES:
+                    elif tools.isChan(dlist[2], True):
                        if dlist[1].strip() == 'TOPIC' and tools.isChan(dlist[2], True):
                            self.set_channeltopic(dlist[2],' '.join(dlist[3:]).replace(":",""))
                        elif dlist[1].strip() == '332' and tools.isChan(dlist[3], True):
