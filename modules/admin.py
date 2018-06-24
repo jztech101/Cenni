@@ -29,7 +29,6 @@ join.example = '.join #example or .join #example key'
 
 def part(cenni, input):
     '''Part the specified channel. This is an admin-only command.'''
-    global intentional_part
     if input.admin:
         sendmessage = input.group(2)
         sendmessage2 = []
@@ -48,13 +47,11 @@ part.example = '.part #example'
 
 def cycle(cenni, input):
     '''Part the specified channel. This is an admin-only command.'''
-    global intentional_part
     if input.admin:
         sendmessage = input.group(2)
         sendmessage2 = []
         if sendmessage:
             sendmessage2 = sendmessage.split(" ")
-        intentional_part = True
         if tools.isChan(input.sender, False) and (not sendmessage or not tools.isChan(sendmessage2[0], False)):
             cenni.write(['PART'], input.sender)
             cenni.join(input.sender, None)
