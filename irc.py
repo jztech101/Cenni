@@ -348,7 +348,7 @@ class Bot(asynchat.async_chat):
                                 self.msg(self.logchan_pm, '[Kick] ' + dlist[0].replace(":","") + ': (' + dlist[2] + ') '+ ' '.join(dlist[4:]).replace(":",""), True)
                             else:
                                 self.msg(self.logchan_pm, '[Kick] ' + dlist[0].replace(":","") + ': (' + dlist[2] + ') ', True)
-                        else:
+                        elif dlist[1].strip() != 'KICK':
                             self.msg(self.logchan_pm, line, True)
                     else:
                        if dlist[1].strip() == 'TOPIC' and tools.isChan(dlist[2], True):
