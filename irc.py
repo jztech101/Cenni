@@ -327,6 +327,7 @@ class Bot(asynchat.async_chat):
                 ## if logging to logging channel is enabled
                 ## send stuff in PM to logging channel
                 dlist = line.split()
+                currnick = re.compile(".*" +self.nick + ".*",re.IGNORECASE)
                 if len(dlist) >= 3:
                     if (not tools.isChan(dlist[2],True) or dlist[1].strip() == 'NOTICE'):
                         if dlist[1].strip() == 'NOTICE':
@@ -354,7 +355,9 @@ class Bot(asynchat.async_chat):
                            if len(dlist) > 3:
                                self.msg(self.logchan_pm, '[Kick] ' + dlist[0].replace(":","") + ': (' + dlist[2] + ') '+ ' '.join(dlist[4:]).replace(":",""), True)
                            else:
-                               self.msg(self.logchan_pm, '[Kick] ' + dlist[0].replace(":","") + ': (' + dlist[2] + ') ', True)                            
+                               self.msg(self.logchan_pm, '[Kick] ' + dlist[0].replace(":","") + ': (' + dlist[2] + ') ', True)    
+                       elif dlist[1].strip() == 'PRIVMSG' and currnick.match(' '.join(dlist[3:])):
+                           self.msg(self.logchan_pm, '[Ping] ' + dlist[0].replace(':','') + ': (' + dlist[2] + ') ' + ' '.join(dlist[3:]).replace(":",""), True)
             if self.logging:
                 ## if logging (to log file) is enabled
                 ## send stuff to the log file
