@@ -14,6 +14,8 @@ def ip_lookup(cenni, input):
     txt = input.group(2)
     if not txt:
         return cenni.say("No search term!")
+    if txt.lower() in cenni.hostmasks:
+        txt = cenni.hostmasks[txt.lower()]
     response = "[IP/Host Lookup] "
     try:
         page = web.get(base + txt)
