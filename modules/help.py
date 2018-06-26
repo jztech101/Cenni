@@ -9,7 +9,7 @@ def doc(cenni, input):
         else:
             cenni.say('No help found')
     else:
-        cenni.say('help: returns maybe helpful information')
+        cenni.say('help: Returns maybe helpful information')
 doc.commands = ['help']
 doc.example = 'help'
 doc.priority = 'low'
