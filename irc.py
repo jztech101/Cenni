@@ -341,7 +341,7 @@ class Bot(asynchat.async_chat):
                         elif dlist[1].strip() == 'INVITE':
                             self.msg(self.logchan_pm, '[Invite] ' + dlist[0].replace(":","") + ': ' + dlist[3].replace(":",""), True)
                         elif dlist[1].strip() not in IRC_CODES:
-                            self.msg(self.logchan_pm, line, True)
+                            print(line)
                     elif tools.isChan(dlist[2], True):
                        if dlist[1].strip() == 'TOPIC' and tools.isChan(dlist[2], True):
                            self.set_channeltopic(dlist[2],' '.join(dlist[3:]).replace(":",""))
