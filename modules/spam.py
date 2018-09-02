@@ -82,7 +82,7 @@ def f_spam(cenni, input):
     spamkickmsg.append('Religious Spam')
 
 
-    spamregexes.append('  +[^A-Za-z0-9 ]')
+    spamregexes.append('([^A-Za-z0-9 ]{2,}  ){2,}')
     spamkickmsg.append('Graffiti Spam')
 
     spamregexes.append(' {4,}')

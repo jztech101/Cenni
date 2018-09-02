@@ -91,7 +91,8 @@ def privs_on_join(cenni, input):
                 cenni.add_halfop(channel, nick)
             elif nick_mode == '+':
                 cenni.add_voice(channel,  nick)
-            cenni.add_user(channel, nick.lower())
+            if nick:
+                cenni.add_user(channel, nick.lower())
 privs_on_join.rule = r'(.*)'
 privs_on_join.event = '353'
 privs_on_join.priority = 'high'
