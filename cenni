@@ -64,6 +64,12 @@ def create_default_config(fn):
     topicsplit = {
        # '#channel': ' || '
         }
+    spamdet = {
+       # '#channel': True
+    }
+    useremove = {
+       # '#channel': False
+    }
     # Enable raw logging of everything cenni sees.
     # logged to the folder 'log'
     logging = False

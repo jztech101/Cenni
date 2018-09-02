@@ -48,6 +48,7 @@ def setup(cenni):
 def nick(cenni,input):
    for channel in cenni.channels:
        cenni.write(['WHO', channel, '%cuhsnfair'])
+       cenni.write(['NAMES', channel])
 nick.rule = r'(.*)'
 nick.event = 'NICK'
 nick.priority = 'high'
@@ -89,7 +90,8 @@ def privs_on_join(cenni, input):
             elif nick_mode == '%':
                 cenni.add_halfop(channel, nick)
             elif nick_mode == '+':
-                cenni.add_voice(channel, nick_mode + nick)
+                cenni.add_voice(channel,  nick)
+            cenni.add_user(channel, nick.lower())
 privs_on_join.rule = r'(.*)'
 privs_on_join.event = '353'
 privs_on_join.priority = 'high'
@@ -123,6 +125,7 @@ def new_Join_Hostmask(cenni, input):
         return
     cenni.set_hostmask(input.nick.lower(), input.host)
     cenni.set_ident(input.nick.lower(), input.user)
+    cenni.add_user(input.sender, input.nick.lower())
 new_Join_Hostmask.rule = r'(.*)'
 new_Join_Hostmask.event = 'JOIN'
 new_Join_Hostmask.priority = 'high'

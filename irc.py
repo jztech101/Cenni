@@ -101,6 +101,7 @@ class Bot(asynchat.async_chat):
         self.ops = dict()
         self.hops = dict()
         self.voices = dict()
+        self.users = dict()
 
         self.use_ssl = False
         self.use_sasl = False
@@ -514,6 +515,11 @@ class Bot(asynchat.async_chat):
             self.voices[channel].add(name)
         else:
             self.voices[channel] = set([name])
+    def add_user(self, channel, name):
+        if channel in self.users:
+            self.users[channel].add(name)
+        else:
+            self.users[channel] = set([name])
     def set_channeltopic(self, channel, topic):
         if channel not in self.channeltopics:
             self.channeltopics[channel] = topic
@@ -529,6 +535,9 @@ class Bot(asynchat.async_chat):
 
     def del_voice(self, channel, name):
         try: self.voices[channel].remove(name)
+        except: pass
+    def del_user(self, channel, name):
+        try: self.users[channel].remove(name)
         except: pass
 
 class TestBot(Bot):

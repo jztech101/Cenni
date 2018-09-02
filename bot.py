@@ -388,7 +388,6 @@ class cenni(irc.Bot):
                     if match:
                         self.dispatchcommand(origin,args, text, match, event, func)
 
-
 if __name__ == '__main__':
     print(__doc__)
 
