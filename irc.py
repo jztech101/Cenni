@@ -539,6 +539,24 @@ class Bot(asynchat.async_chat):
     def del_user(self, channel, name):
         try: self.users[channel].remove(name)
         except: pass
+    def del_hostmask(self, name):
+        try: del self.hostmasks[name]
+        except: pass
+    def del_ident(self, name):
+        try: del self.idents[name]
+        except: pass
+    def del_account(self, name):
+        try: del self.accounts[name]
+        except: pass
+    def del_ipaddr(self, name):
+        try: del self.ipaddrs[name]
+        except: pass
+    def del_realname(self, name):
+        try: del self.realnames[name]
+        except: pass
+    def del_server(self, name):
+        try: del self.servers[name]
+        except: pass
 
 class TestBot(Bot):
     def f_ping(self, origin, match, args):
