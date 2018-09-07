@@ -190,7 +190,7 @@ def kickx(cenni, channel, nick, sender, reasonidx):
     cenni.write(['KICK', channel, nick, ' :', "[" + sender + "] " + reasonidx])
 
 def configureHostMask (mask, cenni):
-    if "!" not in mask and "@" not in mask and ":" not in mask:
+    if not re.search('[^A-Za-z0-9]',mask):
         ident = cenni.idents[mask.lower()]
         host = cenni.hostmasks[mask.lower()]
         if "~" not in ident:
