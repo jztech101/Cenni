@@ -2,7 +2,7 @@
 import re
 import tools
 
-def spamDet(cenni, a):
+def spamDetConfig(cenni, a):
     if hasattr(cenni.config, 'spamdet') and a in cenni.config.spamdet:
         if cenni.config.spamdet[a]:
             return True
@@ -14,7 +14,7 @@ def useRemove(cenni, a):
             return True
     return False
 
-def f_spam(cenni, input):
+def f_spamDet(cenni, input):
     text = input.group(1)
     if not tools.isChan(input.sender, True):
         return
@@ -23,9 +23,7 @@ def f_spam(cenni, input):
         kickstr="REMOVE"
     spamregexes = []
     spamkickmsg = []
-    spamregexes.append('.*▄.*▄.*')
-    spamkickmsg.append('Spam Script')
-
+    
     spamregexes.append('.*just posted this.*freenode blog')
     spamkickmsg.append('Propoganda Spam')
     spamregexes.append('After the acquisition by Private Internet Access, Freenode is now being used')
@@ -55,6 +53,8 @@ def f_spam(cenni, input):
 
     spamregexes.append('([^A-Za-z0-9 ]{2,}  ){2,}')
     spamkickmsg.append('Graffiti Spam')
+    spamregexes.append('.*▄.*▄.*')
+    spamkickmsg.append('Graffiti Spam')
 
     spamregexes.append(' {4,}')
     spamkickmsg.append('Line Spam')
@@ -67,7 +67,7 @@ def f_spam(cenni, input):
     msg2 = tools.replaceUnicode(msg2)
     print("[Filter] " + msg2)
     nicks = 0
-    if spamDet(cenni, input.sender):
+    if spamDetConfig(cenni, input.sender):
         for i in range(0, len(spamregexes)):
             if re.search(spamregexes[i],msg2, re.IGNORECASE):
                 cenni.write([kickstr, input.sender, input.nick,' :', spamkickmsg[i]])
@@ -80,8 +80,8 @@ def f_spam(cenni, input):
             if nicks >= 4:
                 cenni.write([kickstr,input.sender, input.nick, " :Mass Highlight Spam"])
                 return
-f_spam.rule = r'(.*)'
-f_spam.priority = 'low'
+f_spamDet.rule = r'(.*)'
+f_spamDet.priority = 'low'
 
 if __name__ == '__main__':
     print(__doc__.strip())
