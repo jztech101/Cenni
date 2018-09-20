@@ -12,6 +12,7 @@ def isChan(chan, checkprefix):
 
 def replaceUnicode(string):
     string = re.sub('[ᎳᏔ]','W',string)
+    string = re.sub('[ᴡ]','w',string)
     string = re.sub('[οⲟഠо]','o',string)
     string = re.sub('[һ]','h',string)
     string = re.sub('[ỿу]','y',string)
@@ -19,7 +20,7 @@ def replaceUnicode(string):
     string = re.sub('[ⅠⅼΙ]','I',string)
     string = re.sub('[іⅰ]','i',string)
     string = re.sub('[ᖇᏒᎡ]','R',string)
-    string = re.sub('[ϹС]','C',string)
+    string = re.sub('[ϹСⲤ]','C',string)
     string = re.sub('[ⅽсϲ]','c',string)
     string = re.sub('[ѕ]','s',string)
     string = re.sub('[ᥱе]','e',string)

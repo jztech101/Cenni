@@ -23,7 +23,7 @@ def f_spamDet(cenni, input):
         kickstr="REMOVE"
     spamregexes = []
     spamkickmsg = []
-    
+
     spamregexes.append('.*just posted this.*freenode blog')
     spamkickmsg.append('Propoganda Spam')
     spamregexes.append('After the acquisition by Private Internet Access, Freenode is now being used')
@@ -31,6 +31,8 @@ def f_spamDet(cenni, input):
     spamregexes.append('b(L|I)og (where|by) freenode staff member')
     spamkickmsg.append('Propoganda Spam')
     spamregexes.append('freenode pedophilia scanda(l|I)')
+    spamkickmsg.append('Propoganda Spam')
+    spamregexes.append('Read what (i|l)rc (i|l)nvest(l|i)gat(l|i)ve')
     spamkickmsg.append('Propoganda Spam')
 
     spamregexes.append('with our irc ad service')
