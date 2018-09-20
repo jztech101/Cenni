@@ -32,7 +32,9 @@ def f_spamDet(cenni, input):
     spamkickmsg.append('Propoganda Spam')
     spamregexes.append('freenode pedophilia scanda(l|I)')
     spamkickmsg.append('Propoganda Spam')
-    spamregexes.append('Read what (i|l)rc (i|l)nvest(l|i)gat(l|i)ve')
+    spamregexes.append('Read what (i|l)rc (i|l)nvest(l|i)gat(l|i)ve journa[l|i][l|i]sts')
+    spamkickmsg.append('Propoganda Spam')
+    spamregexes.append('A fasc[i|l]nat[i|l]ng b[i|l]og where freenode staff')
     spamkickmsg.append('Propoganda Spam')
 
     spamregexes.append('with our irc ad service')
