@@ -14,8 +14,8 @@ def f_reload(cenni, input):
         cenni.variables = None
         cenni.commands = None
         cenni.setup()
-        if hasattr(cenni.config, 'logchan_pm'):
-            cenni.msg(cenni.config.logchan_pm, '[Reload] %s: [%s] Total' % (input.nick+ '!' + input.user + '@' + input.host, input.sender))
+        if cenni.logchan_pm:
+            cenni.msg(cenni.logchan_pm, '[Reload] %s: [%s] Total' % (input.nick+ '!' + input.user + '@' + input.host, input.sender))
         return cenni.say('done')
 
     if name not in sys.modules:
