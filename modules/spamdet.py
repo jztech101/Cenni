@@ -75,14 +75,17 @@ def f_spamDet(cenni, input):
         for i in range(0, len(spamregexes)):
             if re.search(spamregexes[i],msg2, re.IGNORECASE):
                 cenni.write([kickstr, input.sender, input.nick,' :', spamkickmsg[i]])
+                if cenni.logchan_pm:
+                    cenni.msg(cenni.logchan_pm, '['+spamkickmsg[i]+'] ' + input.nick + '!' + input.user + '@' + input.host +': ['+ input.sender +'] ' + msg2)
                 return
         for i in msg2.split(" "):
-            print(i)
             if i.lower() in cenni.users[input.sender]:
                  print(i)
                  nicks = nicks + 1
             if nicks >= 4:
                 cenni.write([kickstr,input.sender, input.nick, " :Mass Highlight Spam"])
+                if cenni.logchan_pm:
+                    cenni.msg(cenni.logchan_pm, '[Mass Highlight Spam] ' + input.nick + '!' + input.user + '@' + input.host+': ['+input.sender+'] ' + msg2)
                 return
 f_spamDet.rule = r'(.*)'
 f_spamDet.priority = 'low'
