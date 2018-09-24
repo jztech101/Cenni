@@ -36,6 +36,7 @@ def replaceUnicode(string):
     string = re.sub('[∨⋁]','V',string)
     string = re.sub('[ϳ]','j',string)
     string = re.sub('[∪]','U', string)
+    string = re.sub('[ᛧ]',',',string)
     string = re.sub('[           ]',' ',string)
     return string
 
