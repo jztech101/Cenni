@@ -22,6 +22,7 @@ def replaceUnicode(string):
     string = re.sub('[ᖇᏒᎡ]','R',string)
     string = re.sub('[ᏟϹСⲤ]','C',string)
     string = re.sub('[ⅽсϲ]','c',string)
+    string = re.sub('[Ꮋ]','H',string)
     string = re.sub('[ѕ]','s',string)
     string = re.sub('[ᥱе]','e',string)
     string = re.sub('[АᎪΑ]','A',string)
