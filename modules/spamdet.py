@@ -38,6 +38,8 @@ def f_spamDet(cenni, input):
     spamkickmsg.append('Propoganda Spam')
     spamregexes.append('A(L|I)+ to(L|I)d, handshake a(L|I)ms to g(L|I)ve')
     spamkickmsg.append('Propoganda Spam')
+    spamregexes.append('freenode is reg(I|L)stered.*by guarantee without')
+    spamkickmsg.append('Propoganda Spam')
 
     spamregexes.append('with our irc ad service')
     spamkickmsg.append('Ad Spam')
