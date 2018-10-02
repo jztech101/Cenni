@@ -48,7 +48,8 @@ def setup(cenni):
 def nick(cenni,input):
    oldnick = input.nick.lower()
    newnick = input.sender.replace(":","").lower()
-
+   if oldnick == newnick:
+       return
    cenni.set_hostmask(newnick, cenni.hostmasks[oldnick])
    cenni.set_ident(newnick, cenni.idents[oldnick])
    cenni.set_ipaddr(newnick, cenni.ipaddrs[oldnick])
