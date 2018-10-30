@@ -461,9 +461,11 @@ class Bot(asynchat.async_chat):
                     report.append(line[0].lower() + line[1:])
                     break
             else: report.append('source unknown')
-
-            self.msg(origin.sender, report[0] + ' (' + report[1] + ')')
-        except: self.msg(origin.sender, "Got an error.")
+            if cenni.logchan_pm:
+                self.msg(cenni.logchan_pm, report[0] + ' (' + report[1] + ')')
+        except:
+            if cenni.logchan_pm:
+                self.msg(cenni.logchan_pm, "Got an error.")
 
     # Functions to add/remove ops, hops, and voices
     def add_op(self, channel, name):
