@@ -5,45 +5,87 @@ import socket
 import web
 from modules import unicode as uc
 
-def host(cenni, input):
-    if input.group(2).lower() in cenni.hostmasks:
-        cenni.say(input.group(2) + "!" + cenni.idents[input.group(2).lower()] + "@" + cenni.hostmasks[input.group(2).lower()])
+def getHost(cenni, nick):
+    if nick.lower() in cenni.hostmasks:
+        return nick + "!" + cenni.idents[nick.lower()] + "@" + cenni.hostmasks[nick.lower()]
     else:
-        cenni.say("No hostmask found")
+        return "No hostmask found"
+
+def host(cenni,input):
+    nick = input.nick
+    if input.group(2):
+        nick = input.group(2)
+    cenni.say(getHost(cenni,nick))
 host.commands = ['host', 'hostmask']
 host.example = "host nick"
 
-def account(cenni, input):
-    nick = input.group(2).lower()
+def getAccount(cenni, nick):
+    nick = nick.lower()
     if nick in cenni.accounts and cenni.accounts[nick] != 0:
-       cenni.say("Account: " + cenni.accounts[nick])
+       return "Account: " + cenni.accounts[nick]
     else:
-       cenni.say("No account found")
+       return "No account found"
+
+def account(cenni,input):
+    nick = input.nick
+    if input.group(2):
+        nick = input.group(2)
+    cenni.say(getAccount(cenni,nick))
 account.commands = ['acct','account']
 account.example = 'account'
-def server(cenni, input):
-    nick = input.group(2).lower()
+
+def getServer(cenni, nick):
+    nick = nick.lower()
     if nick in cenni.servers:
-       cenni.say(input.group(2)+ " is connected to: " + cenni.servers[nick])
+       return nick+ " is connected to: " + cenni.servers[nick]
     else:
-       cenni.say("No server found")
+       return "No server found"
+
+def server(cenni,input):
+    nick = input.nick
+    if input.group(2):
+        nick = input.group(2)
+    cenni.say(getServer(cenni,nick))
 server.commands = ['server']
 server.example = 'server'
-def realname(cenni, input):
-    nick = input.group(2).lower()
+
+def getRealname(cenni, nick):
+    nick = nick.lower()
     if nick in cenni.realnames:
-       cenni.say("Real Name: " + cenni.realnames[nick])
+       return "Real Name: " + cenni.realnames[nick]
     else:
-       cenni.say("No real name found")
+       return "No real name found"
+
+def realname(cenni,input):
+    nick = input.nick
+    if input.group(2):
+        nick = input.group(2)
+    cenni.say(getRealname(cenni,nick))
 realname.commands = ['realname']
 realname.example = 'realname'
-def checkip(cenni,input):
-    nick = input.group(2).lower()
+
+def getIP(cenni,nick):
+    nick = nick.lower()
     if nick in cenni.ipaddrs and cenni.ipaddrs[nick] != '255.255.255.255':
-       cenni.say("IP: " + cenni.ipaddrs[nick])
+       return "IP: " + cenni.ipaddrs[nick]
     else:
-       cenni.say("No IP Found")
+       return "No IP Found"
+
+def checkip(cenni,input):
+    nick = input.nick
+    if input.group(2):
+        nick = input.group(2)
+    cenni.say(getIP(cenni,nick))
 checkip.commands = ['checkip','getip']
 checkip.example = 'checkip'
+
+def who(cenni,input):
+    nick = input.nick
+    if input.group(2):
+        nick = input.group(2)
+    cenni.say(getHost(cenni,nick) + " || " + getIP(cenni,nick) + " || " + getRealname(cenni,nick) + " || " + getAccount(cenni,nick) + " || " + getServer(cenni,nick))
+who.commands = ['who','whox']
+who.example = 'who'
+
 if __name__ == '__main__':
     print(__doc__.strip())
