@@ -84,7 +84,7 @@ def who(cenni,input):
     if input.group(2):
         nick = input.group(2)
     cenni.say(getHost(cenni,nick) + " || " + getIP(cenni,nick) + " || " + getRealname(cenni,nick) + " || " + getAccount(cenni,nick) + " || " + getServer(cenni,nick))
-who.commands = ['who','whox']
+who.commands = ['who','whox','whois']
 who.example = 'who'
 
 if __name__ == '__main__':
