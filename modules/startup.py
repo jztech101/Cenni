@@ -93,7 +93,6 @@ def startup(cenni, input):
         cenni.msg('NickServ', 'IDENTIFY %s %s' % (user, cenni.config.password))
         time.sleep(10)
 
-    # Cf. http://swhack.com/logs/2005-12-05#T19-32-36
     for channel in cenni.channels:
        cenni.join(channel, None)
        time.sleep(1)
