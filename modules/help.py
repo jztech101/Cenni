@@ -9,7 +9,7 @@ def doc(cenni, input):
         else:
             cenni.say('No help found')
     else:
-        cenni.say('User Commands: shrug, moo, cookie, source, potato, hmmm, burn')
-doc.commands = ['help']
+        cenni.say('User Commands: shrug, moo, cookie, source, potato, hmmm, burn | ping, pong | seen | version | sc | geoip |')
+doc.commands = ['help', 'commands']
 doc.example = 'help'
 doc.priority = 'low'
