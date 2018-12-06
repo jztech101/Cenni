@@ -96,7 +96,7 @@ def startup(cenni, input):
     # Cf. http://swhack.com/logs/2005-12-05#T19-32-36
     for channel in cenni.channels:
        cenni.join(channel, None)
-       time.sleep(0.7)
+       time.sleep(1)
 startup.rule = r'(.*)'
 startup.event = '251'
 startup.priority = 'low'
