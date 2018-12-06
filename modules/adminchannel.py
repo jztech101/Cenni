@@ -191,6 +191,8 @@ def kickx(cenni, channel, nick, sender, reasonidx):
 
 def configureHostMask (mask, cenni):
     if not re.search('[^A-Za-z0-9]',mask):
+        if mask.lower() not in cenni.idents or mask.lower() not in cenni.hostmasks:
+            return mask.lower() + "!*@*"
         ident = cenni.idents[mask.lower()]
         host = cenni.hostmasks[mask.lower()]
         if "~" not in ident:
@@ -203,7 +205,7 @@ def configureHostMask (mask, cenni):
 def ban (cenni, input):
     """
     This give admins the ability to ban a user.
-"    The bot must be a Channel Operator for this command to work.
+    The bot must be a Channel Operator for this command to work.
     """
     text = input.group().split()
     argc = len(text)
@@ -266,7 +268,7 @@ def quiet (cenni, input):
    quietmask = configureHostMask(banmask, cenni)
    if quietmask == '': return
    cenni.write(['MODE', channel, '+q', quietmask])
-quiet.commands = ['quiet']
+quiet.commands = ['quiet','mute']
 quiet.priority = 'high'
 
 def unquiet (cenni, input):
@@ -289,7 +291,7 @@ def unquiet (cenni, input):
    quietmask = configureHostMask(banmask, cenni)
    if quietmask == '': return
    cenni.write(['MODE', channel, '-q', quietmask])
-unquiet.commands = ['unquiet']
+unquiet.commands = ['unquiet','unmute']
 unquiet.priority = 'high'
 
 def kickban (cenni, input):
