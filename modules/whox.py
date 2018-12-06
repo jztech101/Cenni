@@ -21,7 +21,7 @@ host.example = "host nick"
 
 def getAccount(cenni, nick):
     nick = nick.lower()
-    if nick in cenni.accounts and cenni.accounts[nick] != 0:
+    if nick in cenni.accounts and cenni.accounts[nick] != '0':
        return "Account: " + cenni.accounts[nick]
     else:
        return "No account found"
@@ -89,3 +89,4 @@ who.example = 'who'
 
 if __name__ == '__main__':
     print(__doc__.strip())
+
