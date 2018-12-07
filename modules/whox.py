@@ -14,7 +14,7 @@ def getHost(cenni, nick):
 def host(cenni,input):
     nick = input.nick
     if input.group(2):
-        nick = input.group(2)
+        nick = input.group(2).replace(" ","")
     cenni.say(getHost(cenni,nick))
 host.commands = ['host', 'hostmask']
 host.example = "host nick"
@@ -29,7 +29,7 @@ def getAccount(cenni, nick):
 def account(cenni,input):
     nick = input.nick
     if input.group(2):
-        nick = input.group(2)
+        nick = input.group(2).replace(" ","")
     cenni.say(getAccount(cenni,nick))
 account.commands = ['acct','account']
 account.example = 'account'
@@ -44,7 +44,7 @@ def getServer(cenni, nick):
 def server(cenni,input):
     nick = input.nick
     if input.group(2):
-        nick = input.group(2)
+        nick = input.group(2).replace(" ","")
     cenni.say(getServer(cenni,nick))
 server.commands = ['server']
 server.example = 'server'
@@ -59,7 +59,7 @@ def getRealname(cenni, nick):
 def realname(cenni,input):
     nick = input.nick
     if input.group(2):
-        nick = input.group(2)
+        nick = input.group(2).replace(" ","")
     cenni.say(getRealname(cenni,nick))
 realname.commands = ['realname']
 realname.example = 'realname'
@@ -74,7 +74,7 @@ def getIP(cenni,nick):
 def checkip(cenni,input):
     nick = input.nick
     if input.group(2):
-        nick = input.group(2)
+        nick = input.group(2).replace(" ","")
     cenni.say(getIP(cenni,nick))
 checkip.commands = ['checkip','getip']
 checkip.example = 'checkip'
@@ -82,11 +82,10 @@ checkip.example = 'checkip'
 def who(cenni,input):
     nick = input.nick
     if input.group(2):
-        nick = input.group(2)
+        nick = input.group(2).replace(" ","")
     cenni.say(getHost(cenni,nick) + " || " + getIP(cenni,nick) + " || " + getRealname(cenni,nick) + " || " + getAccount(cenni,nick) + " || " + getServer(cenni,nick))
 who.commands = ['who','whox','whois']
 who.example = 'who'
 
 if __name__ == '__main__':
     print(__doc__.strip())
-
