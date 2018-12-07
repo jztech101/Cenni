@@ -6,7 +6,7 @@ import os, codecs
 import errno
 import tools
 
-IRC_CODES = ('001', '354',  '002', '003','004', '005', '253', '251', '252', '254', '255', '265', '266', '250', '315', '328', '332', '333', '352', '353','354', '366', '372', '375', '376', 'QUIT', 'NICK', 'JOIN')
+IRC_CODES = ('001', '354',  '002', '003','004', '005', '253', '251', '252', '254', '255', '265', '266', '250', '315', '328', '333', '352', '353','354', '366', '372', '375', '376', 'QUIT', 'NICK', 'JOIN')
 cwd = os.getcwd()
 
 class Origin(object):
@@ -330,6 +330,7 @@ class Bot(asynchat.async_chat):
                 dlist = line.split()
                 currnick = re.compile(".*" +self.nick + ".*",re.IGNORECASE)
                 if len(dlist) >= 3:
+                    print(dlist[1].strip() + dlist[3])
                     if (not tools.isChan(dlist[2],True) or dlist[1].strip() == 'NOTICE'):
                         if dlist[1].strip() == 'NOTICE':
                             if tools.isChan(dlist[2],True):
@@ -343,10 +344,8 @@ class Bot(asynchat.async_chat):
                         elif dlist[1].strip() not in IRC_CODES:
                             print(line)
                     elif tools.isChan(dlist[2], True):
-                       if dlist[1].strip() == 'TOPIC' and tools.isChan(dlist[2], True):
+                       if dlist[1].strip() == 'TOPIC':
                            self.set_channeltopic(dlist[2],' '.join(dlist[3:]).replace(":",""))
-                       elif dlist[1].strip() == '332' and tools.isChan(dlist[3], True):
-                           self.set_channeltopic(dlist[3],' '.join(dlist[4:]).replace(":",""))
                        elif dlist[1].strip() == 'PART'and dlist[0].strip().startswith(":" + self.nick):
                            if len(dlist) > 3:
                                self.msg(self.logchan_pm, '[Part] ' + dlist[0].replace(":","") + ': (' + dlist[2] + ') '+ ' '.join(dlist[3:]).replace(":",""), True)
@@ -358,7 +357,10 @@ class Bot(asynchat.async_chat):
                            else:
                                self.msg(self.logchan_pm, '[Kick] ' + dlist[0].replace(":","") + ': (' + dlist[2] + ') ', True)    
                        elif dlist[1].strip() == 'PRIVMSG' and dlist[2].strip() != self.logchan_pm and currnick.match(' '.join(dlist[3:])):
-                           self.msg(self.logchan_pm, '[Ping] ' + dlist[0].replace(':','') + ': (' + dlist[2] + ') ' + ' '.join(dlist[3:]).replace(":",""), True)
+                           self.msg(self.logchan_pm, '[Ping] ' + dlist[0].replace(':','') + ': (' + dlist[2] + ') ' + ' '.join(dlist[3:]).replace(":",""), True)   
+                    elif tools.isChan(dlist[3], True) and len(dlist) >=4:
+                       if dlist[1].strip() == '332':
+                           self.set_channeltopic(dlist[3],' '.join(dlist[4:]).replace(":",""))
             if self.logging:
                 ## if logging (to log file) is enabled
                 ## send stuff to the log file
