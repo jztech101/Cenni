@@ -1,8 +1,8 @@
-## Commands
+# Commands
 
 Bot Prefix: $
 
-# User Commands
+## User Commands
 
 * help / commands - Shows a list of commands.
 * shrug - Outputs a shrugging face.
@@ -14,3 +14,5 @@ Bot Prefix: $
 * roulette / rr - Starts the russian roulette
 * seen <user> - Tells you what time the user was last seen.
 * 
+
+## Admin Commands
