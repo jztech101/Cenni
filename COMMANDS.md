@@ -32,6 +32,10 @@ Bot Prefix: $
 * realname <user> - Shows the realname of a user.
 * getip <user> / checkip <user> - Gets the IP of a user.
 
+## Topic Module (topic.py)
+
+* topic - Changes the channel topic.
+
 ## Channel Admin Module (adminchannel.py)
 
 * kick <user> - Kicks a user from the channel
