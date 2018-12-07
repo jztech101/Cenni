@@ -345,7 +345,7 @@ class Bot(asynchat.async_chat):
                             print(line)
                     elif tools.isChan(dlist[2], True):
                        if dlist[1].strip() == 'TOPIC':
-                           self.set_channeltopic(dlist[2],' '.join(dlist[3:]).replace(":",""))
+                           self.set_channeltopic(dlist[2],' '.join(dlist[3:]).replace(":","",1))
                        elif dlist[1].strip() == 'PART'and dlist[0].strip().startswith(":" + self.nick):
                            if len(dlist) > 3:
                                self.msg(self.logchan_pm, '[Part] ' + dlist[0].replace(":","") + ': (' + dlist[2] + ') '+ ' '.join(dlist[3:]).replace(":",""), True)
@@ -360,7 +360,7 @@ class Bot(asynchat.async_chat):
                            self.msg(self.logchan_pm, '[Ping] ' + dlist[0].replace(':','') + ': (' + dlist[2] + ') ' + ' '.join(dlist[3:]).replace(":",""), True)   
                     elif tools.isChan(dlist[3], True) and len(dlist) >=4:
                        if dlist[1].strip() == '332':
-                           self.set_channeltopic(dlist[3],' '.join(dlist[4:]).replace(":",""))
+                           self.set_channeltopic(dlist[3],' '.join(dlist[4:]).replace(":","",1))
             if self.logging:
                 ## if logging (to log file) is enabled
                 ## send stuff to the log file

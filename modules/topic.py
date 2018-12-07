@@ -40,6 +40,7 @@ def topic(cenni, input):
     else:
         currenttopic = cenni.channeltopics[channel]
     if currenttopic and getChanSplitChar(cenni, channel) and (len(text) > index+1 or text[index].startswith("-")):
+        #cenni.say(currenttopic)
         char = getChanSplitChar(cenni, channel)
         if text[index].startswith("-") and  "".join(text[index][1:]).isdigit() and len(currenttopic.split(char)) >= int("".join(text[index][1:])):
            tmp = currenttopic.split(char)
