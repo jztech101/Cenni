@@ -10,6 +10,8 @@ Enjoy!
 
 P.S: You'll encounter a number of missing dependencies upon first run. Feel free to install them via pip
 
+To see a list of bot commands see the COMMANDS.md file.
+
 Credits
 =======
 
