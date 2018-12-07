@@ -45,3 +45,13 @@ Bot Prefix: $
 * voice <user> - Gives a user voice (+v).
 * devoice <user> - Removes voice (+v) from a user.
 * invite <user> - Sends a /invite to a user.
+  
+## Admin Module (admin.py)
+
+* join <#chan> - Makes the bot join a channel.
+* part <#chan> - Makes the bot part a channel.
+* cycle <#chan> - Makes the bot cycle a channel.
+* quit - Makes the bot disconnect from the server.
+* say <message> - Makes the bot say some text.
+* act <message> / do <message> - Makes the bot perform an /me .
+* raw - Sends some raw text to the server.
