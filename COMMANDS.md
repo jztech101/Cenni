@@ -16,3 +16,15 @@ Bot Prefix: $
 * 
 
 ## Admin Commands
+
+* kick <user> - Kicks a user from the channel
+* ban <user/host> - Bans a user/hostmask from the channel.
+* kickban <user> / kban <user> / kb <user> - Kicks and bans a user from the channel.
+* unban <user> - Removes a ban set on a user.
+* quiet <user> / mute <user> - Sets a quiet on a user.
+* unquiet <user> / unmute <user> - Removes a quiet that was set on a user.
+* op <user> - Sets operator (+o) on a user.
+* deop <user> - Removes operator (-o) from a user.
+* voice <user> - Gives a user voice (+v).
+* devoice <user> - Removes voice (+v) from a user.
+* invite <user> - Sends a /invite to a user.
