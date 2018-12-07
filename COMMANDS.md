@@ -2,20 +2,37 @@
 
 Bot Prefix: $
 
-## User Commands
+## Help Module (help.py)
 
 * help / commands - Shows a list of commands.
+
+## Random Commands Module (randcmds.py)
+
 * shrug - Outputs a shrugging face.
 * ping - Outputs "pong"
 * pong - Outputs "ping"
 * moo - Outputs MoooooOoooOooooooooooo
 * cookie <user> - Gives a user a cookie.
 * source - Shows the source for the bot.  
-* roulette / rr - Starts the russian roulette
-* seen <user> - Tells you what time the user was last seen.
-* 
 
-## Admin Commands
+## Roulette Module (roulette.py)
+
+* roulette / rr - Starts the russian roulette
+
+## Seen Module Commands (seen.py)
+
+* seen <user> - Tells you what time the user was last seen.
+
+## Whox Module Commands (whox.py)
+
+* who <user> / whois <user> - Shows information from a users /whois response.
+* server <user> - Shows what IRC server the user is connected to.
+* account <user> / acct <user> - Shows the NickServ account name that the user is logged into.
+* hostmask <user> / host <user> - Shows the hostmask of a user.
+* realname <user> - Shows the realname of a user.
+* getip <user> / checkip <user> - Gets the IP of a user.
+
+## Channel Admin Module (adminchannel.py)
 
 * kick <user> - Kicks a user from the channel
 * ban <user/host> - Bans a user/hostmask from the channel.
