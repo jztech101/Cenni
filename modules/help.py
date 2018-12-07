@@ -1,3 +1,4 @@
+
 def doc(cenni, input):
     """Shows a command's documentation, and possibly an example."""
     if input.group(2):
@@ -9,7 +10,7 @@ def doc(cenni, input):
         else:
             cenni.say('No help found')
     else:
-        cenni.say('User Commands: shrug, moo, cookie, source, potato, hmmm, burn | ping, pong | seen | version | sc | geoip, who | Admin Commands: op, deop, voice, devoice, quiet, unquiet, ban, unban, kickban (kb, kban), invite, kick')
+        cenni.say('User Commands: shrug, moo, cookie, source, potato, burn | ping, pong | seen | version | sc | geoip, who | Admin Commands: op, deop, voice, devoice, quiet, unquiet, ban, unban, kickban (kb, kban), invite, kick')
 doc.commands = ['help', 'commands']
 doc.example = 'help'
 doc.priority = 'low'
