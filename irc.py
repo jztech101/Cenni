@@ -330,7 +330,7 @@ class Bot(asynchat.async_chat):
                 dlist = line.split()
                 currnick = re.compile(".*" +self.nick + ".*",re.IGNORECASE)
                 if len(dlist) >= 3:
-                    print(dlist[1].strip() + dlist[3])
+                    #print(dlist[1].strip() + dlist[3])
                     if (not tools.isChan(dlist[2],True) or dlist[1].strip() == 'NOTICE'):
                         if dlist[1].strip() == 'NOTICE':
                             if tools.isChan(dlist[2],True):
