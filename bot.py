@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-import time, sys, os, re, threading, imp
+import time, sys, os, re, threading
+from importlib.machinery import SourceFileLoader
 import irc, os
 import traceback
 
@@ -58,7 +59,7 @@ class cenni(irc.Bot):
             name = os.path.basename(filename)[:-3]
             # if name in sys.modules:
             #     del sys.modules[name]
-            try: module = imp.load_source(name, filename)
+            try: module = SourceFileLoader(name, filename).load_module()
             except Exception as e:
                 print("Error loading %s: %s (in bot.py)" % (name, e), file=sys.stderr)
                 traceback.print_exc()
