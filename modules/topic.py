@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import re
 import tools
-
+oldtopic = dict()
 def is_chan_admin(cenni, input, a):
     if input.admin:
         return True
@@ -18,6 +18,7 @@ def getChanSplitChar(cenni, a):
             return
 
 def topic(cenni, input):
+    global oldtopic
     """
     This gives admins the ability to change the topic.
     Note: One does *NOT* have to be an OP, one just has to be on the list of
@@ -35,10 +36,17 @@ def topic(cenni, input):
         index = 2
     if not is_chan_admin(cenni,input,channel):
         return cenni.say('You must be an admin to perform this operation')
+    if text[index] == 'undo':
+        if channel in oldtopic:
+            cenni.write(['TOPIC', channel],oldtopic[channel])
+        else:
+            cenni.say("Undo not possible")
+        return
     if channel not in cenni.channeltopics:
         currenttopic = None
     else:
         currenttopic = cenni.channeltopics[channel]
+    oldtopic[channel] = currenttopic
     if currenttopic and getChanSplitChar(cenni, channel) and (len(text) > index+1 or text[index].startswith("-")):
         #cenni.say(currenttopic)
         char = getChanSplitChar(cenni, channel)
