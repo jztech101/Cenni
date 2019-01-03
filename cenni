@@ -70,6 +70,9 @@ def create_default_config(fn):
     useremove = {
        # '#channel': False
     }
+    rouletteC = {
+       # '#channel': False
+    }
     # Enable raw logging of everything cenni sees.
     # logged to the folder 'log'
     logging = False

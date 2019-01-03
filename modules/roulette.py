@@ -7,6 +7,11 @@ def roulette(cenni, input):
     global barrel, current
     if not tools.isChan(input.sender, False):
         return
+    if hasattr(cenni.config, 'rouletteC') and input.sender in cenni.config.rouletteC:
+        if not cenni.config.rouletteC[input.sender]:
+            return
+    else:
+        return
     random.seed()
     if input.sender not in barrel or barrel[input.sender] == None or (input.group(2) and input.group(2).lower() == 'spin'):
         barrel[input.sender] = random.randint(1,8)
