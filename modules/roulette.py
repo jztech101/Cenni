@@ -17,7 +17,7 @@ def roulette(cenni, input):
         barrel[input.sender] = random.randint(1,8)
         currentbarrel[input.sender] = 1
         if cenni.logchan_pm:
-            cenni.msg(cenni.logchan_pm, '[Roulette Spin] ' + input.nick + '!' + input.user + '@' + input.host +': ['+ input.sender +'] Barrel in ' + str(barrel[input.sender]))
+            cenni.msg(cenni.logchan_pm, '[Roulette Spin] ' + input.nick + '!' + input.user + '@' + input.host +': ('+ input.sender +') Barrel in ' + str(barrel[input.sender]))
         if input.group(2) and input.group(2).lower() == 'spin':
             return cenni.say("Feeling lucky?")
     if barrel[input.sender] == currentbarrel[input.sender]:
