@@ -132,7 +132,7 @@ f_remind.commands = ['tell', 'to', 'yell']
 
 def getReminders(cenni, channel, key, tellee):
     lines = []
-    template = '%s: %s <%s> %s %s %s'
+    template = '%s <%s> %s'
     today = time.strftime('%d %b', time.gmtime())
 
     cenni.tell_lock.acquire()
@@ -141,7 +141,7 @@ def getReminders(cenni, channel, key, tellee):
         for (teller, verb, datetime, msg) in cenni.reminders[key]:
             if datetime.startswith(today):
                 datetime = datetime[len(today) + 1:]
-            lines.append(template % (tellee, datetime, teller, verb, tellee, msg))
+            lines.append(template % (datetime, teller, msg))
 
         try: del cenni.reminders[key]
         except KeyError: cenni.msg(channel, 'Er...')
@@ -172,7 +172,7 @@ def message(cenni, input):
     if reminders:
         cenni.say(tellee + ": Someone sent you a message while you were away! Please check PMs")
         for line in reminders:
-            cenni.msg(tellee, line.replace("tell " + tellee + " ",""))
+            cenni.msg(tellee, line)
 
     if len(list(cenni.reminders.keys())) != remkeys:
         dumpReminders(cenni.tell_filename, cenni.reminders, cenni.tell_lock)  # @@ tell
