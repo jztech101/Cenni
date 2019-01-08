@@ -170,9 +170,9 @@ def message(cenni, input):
         elif tellee.lower().startswith(remkey.rstrip('*:').lower()):
             reminders.extend(getReminders(cenni, channel, remkey, tellee))
     if reminders:
-        cenni.say(tellee + ": Someone sent you a message while you were away, please check PMs")
+        cenni.say(tellee + ": Someone sent you a message while you were away! Please check PMs")
         for line in reminders:
-            cenni.msg(tellee, line.replace("tell " + tellee,""))
+            cenni.msg(tellee, line.replace("tell " + tellee + " ",""))
 
     if len(list(cenni.reminders.keys())) != remkeys:
         dumpReminders(cenni.tell_filename, cenni.reminders, cenni.tell_lock)  # @@ tell
