@@ -69,13 +69,16 @@ def f_remind(cenni, input):
         verb = 'tell'.encode('utf-8')
         line = input.groups()
         line_txt = line[1].split()
-        tellee = line_txt[0]
+        tellnick = line_txt[0].lower()
+        tellee = line_txt[0].lower()
         msg = ' '.join(line_txt[1:])
         if re.match('^[^a-zA-Z]yell.*',line_prefix):
             msg = (msg).upper()
     else:
         verb, tellee, msg = input.groups()
-
+    if not msg:
+        cenni.say("Message cannot be empty")
+        return
     ## handle unicode
     verb = verb.decode('utf-8')
     tellee = tellee.encode('utf-8').decode('utf-8')
@@ -88,42 +91,36 @@ def f_remind(cenni, input):
 
     timenow = time.strftime('%d %b %H:%MZ', time.gmtime())
     whogets = list()
+    response = list()
     for tellee in tellee.split(','):
         if len(tellee) > 20:
-            cenni.say('Nickname %s is too long.' % (tellee))
+            response.append('Nickname %s is too long.' % (tellee))
             continue
-        if not tellee.lower() in (teller.lower(), cenni.nick):  # @@
-            cenni.tell_lock.acquire()
-            try:
-                if not tellee.lower() in whogets:
-                    whogets.append(tellee)
-                    if tellee not in cenni.reminders:
-                        cenni.reminders[tellee] = [(teller, verb, timenow, msg)]
-                    else:
-                        cenni.reminders[tellee].append((teller, verb, timenow, msg))
-            finally:
-                cenni.tell_lock.release()
-    response = str()
-    if teller.lower() == tellee.lower() or tellee.lower() == 'me':
-        response = 'You can %s yourself that.' % (verb)
-    elif tellee.lower() == cenni.nick.lower():
-        response = "Hey, I'm not as stupid as Monty you know!"
-    else:
-        response = "I'll pass that on when %s is around."
-        if len(whogets) > 1:
-            listing = ', '.join(whogets[:-1]) + ', or ' + whogets[-1]
-            response = response % (listing)
-        elif len(whogets) == 1:
-            response = response % (whogets[0])
+        if tellee.lower() == cenni.nick.lower() or tellee.lower() == input.nick.lower():
+            response.append("Cannot send to " + tellee)
+            continue
+        if tellee.lower() in cenni.accounts and cenni.accounts[tellee.lower()] != '0':
+            tellee = cenni.accounts[tellee.lower()]
+        elif tellee.lower() in cenni.hostmasks:
+            tellee = cenni.idents[tellee.lower()]+ "@" +cenni.hostmasks[tellee.lower()]
         else:
-            return cenni.say('Huh?')
-
-    if not whogets: # Only get cute if there are not legits
-        rand = random.random()
-        if rand > 0.9999: response = 'yeah, yeah'
-        elif rand > 0.999: response = 'yeah, sure, whatever'
-
-    cenni.say(response)
+            response.append(tellee + " not found")
+            continue  # @@
+        cenni.tell_lock.acquire()
+        try:
+            if not tellee in whogets:
+                whogets.append(tellee)
+                if tellee not in cenni.reminders:
+                    cenni.reminders[tellee] = [(teller, verb, timenow, msg)]
+                else:
+                    cenni.reminders[tellee].append((teller, verb, timenow, msg))
+        finally:
+            cenni.tell_lock.release()
+    if whogets:
+        # print(", ".join(whogets))
+        response.append("I'll pass that on when they're around")
+    if response:
+        cenni.say(", ".join(response))
 
     dumpReminders(cenni.tell_filename, cenni.reminders, cenni.tell_lock) # @@ tell
 f_remind.rule = ('$nick', ['[tTyY]ell', '[aA]sk'], r'(\S+) (.*)')
@@ -154,13 +151,16 @@ def getReminders(cenni, channel, key, tellee):
 def message(cenni, input):
     #if not tools.isChan(input.sender, False): return
 
-    tellee = input.nick
+    tellee = input.nick.lower()
     channel = input.sender
 
     if not os: return
     if not os.path.exists(cenni.tell_filename):
         return
-
+    if tellee in cenni.accounts and cenni.accounts[tellee] != '0':
+        tellee = cenni.accounts[tellee]
+    else:
+        tellee = cenni.idents[tellee] + "@" +cenni.hostmasks[tellee]
     reminders = []
     remkeys = list(reversed(sorted(cenni.reminders.keys())))
     for remkey in remkeys:
@@ -170,9 +170,9 @@ def message(cenni, input):
         elif tellee.lower().startswith(remkey.rstrip('*:').lower()):
             reminders.extend(getReminders(cenni, channel, remkey, tellee))
     if reminders:
-        cenni.say(tellee + ": Someone sent you a message while you were away! Please check PMs")
+        cenni.say(input.nick + ": Someone sent you a message while you were away! Please check PMs")
         for line in reminders:
-            cenni.msg(tellee, line)
+            cenni.msg(input.nick, line)
 
     if len(list(cenni.reminders.keys())) != remkeys:
         dumpReminders(cenni.tell_filename, cenni.reminders, cenni.tell_lock)  # @@ tell
